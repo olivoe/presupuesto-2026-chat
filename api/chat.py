@@ -46,11 +46,8 @@ class handler(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(response).encode())
                 return
             
-            # Get embedding for the query
-            query_embedding = self._get_embedding(message)
-            
             # Retrieve relevant context (using pre-built knowledge base)
-            contexts = self._retrieve_context(query_embedding, top_k=5)
+            contexts = self._retrieve_context(message, top_k=5)
             
             # Build prompt
             prompt = self._build_prompt(message, contexts, conversation_history)
@@ -92,19 +89,7 @@ class handler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
     
-    def _get_embedding(self, text: str) -> List[float]:
-        """Get embedding for text"""
-        try:
-            response = client.embeddings.create(
-                model="text-embedding-3-small",
-                input=text
-            )
-            return response.data[0].embedding
-        except Exception as e:
-            print(f"Error getting embedding: {e}")
-            return [0.0] * 1536
-    
-    def _retrieve_context(self, query_embedding: List[float], top_k: int = 5) -> List[Dict[str, Any]]:
+    def _retrieve_context(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
         """
         Retrieve relevant context from knowledge base
         
