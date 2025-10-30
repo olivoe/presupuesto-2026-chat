@@ -221,8 +221,12 @@ Answer in the same language as the question (English or Spanish).
         """Generate response with GPT-4"""
         
         try:
-            # Initialize OpenAI client
-            client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
+            # Initialize OpenAI client with minimal config
+            client = OpenAI(
+                api_key=os.environ.get('OPENAI_API_KEY'),
+                timeout=30.0,
+                max_retries=2
+            )
             
             response = client.chat.completions.create(
                 model="gpt-4-turbo-preview",  # or "gpt-3.5-turbo" for lower cost
@@ -238,5 +242,7 @@ Answer in the same language as the question (English or Spanish).
             
         except Exception as e:
             print(f"Error generating response: {e}")
+            import traceback
+            traceback.print_exc()
             return f"I apologize, but I encountered an error: {str(e)}"
 
