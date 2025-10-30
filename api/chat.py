@@ -8,8 +8,9 @@ import os
 from typing import List, Dict, Any
 import openai
 
-# Initialize OpenAI
-openai.api_key = os.environ.get('OPENAI_API_KEY')
+# Initialize OpenAI client
+from openai import OpenAI
+client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
 
 class handler(BaseHTTPRequestHandler):
     """Vercel serverless handler"""
@@ -94,7 +95,7 @@ class handler(BaseHTTPRequestHandler):
     def _get_embedding(self, text: str) -> List[float]:
         """Get embedding for text"""
         try:
-            response = openai.embeddings.create(
+            response = client.embeddings.create(
                 model="text-embedding-3-small",
                 input=text
             )
@@ -239,7 +240,7 @@ Answer in the same language as the question (English or Spanish).
         """Generate response with GPT-4"""
         
         try:
-            response = openai.chat.completions.create(
+            response = client.chat.completions.create(
                 model="gpt-4-turbo-preview",  # or "gpt-3.5-turbo" for lower cost
                 messages=[
                     {"role": "system", "content": system_prompt},
