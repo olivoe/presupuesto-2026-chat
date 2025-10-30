@@ -6,11 +6,7 @@ from http.server import BaseHTTPRequestHandler
 import json
 import os
 from typing import List, Dict, Any
-import openai
-
-# Initialize OpenAI client
 from openai import OpenAI
-client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
 
 class handler(BaseHTTPRequestHandler):
     """Vercel serverless handler"""
@@ -225,6 +221,9 @@ Answer in the same language as the question (English or Spanish).
         """Generate response with GPT-4"""
         
         try:
+            # Initialize OpenAI client
+            client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
+            
             response = client.chat.completions.create(
                 model="gpt-4-turbo-preview",  # or "gpt-3.5-turbo" for lower cost
                 messages=[
