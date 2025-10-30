@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presupuesto 2026 - AI Chat Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Marked.js for markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>💬 Presupuesto 2026 AI Assistant</h1>
+                <p class="subtitle">Ask me anything about the TikTok analysis project</p>
+            </div>
+            <button class="new-chat-btn" onclick="startNewChat()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                New Chat
+            </button>
+        </header>
+
+        <!-- Chat Container -->
+        <div class="chat-container" id="chatContainer">
+            <!-- Welcome Message -->
+            <div class="welcome-message" id="welcomeMessage">
+                <div class="welcome-icon">🎯</div>
+                <h2>Welcome to Presupuesto 2026 AI Assistant!</h2>
+                <p>I can help you explore insights from the TikTok analysis project.</p>
+                
+                <div class="example-questions">
+                    <h3>Try asking:</h3>
+                    <button class="example-btn" onclick="askExample('What are the main findings from the sentiment analysis?')">
+                        What are the main findings from the sentiment analysis?
+                    </button>
+                    <button class="example-btn" onclick="askExample('Which post has the highest Interest Index?')">
+                        Which post has the highest Interest Index?
+                    </button>
+                    <button class="example-btn" onclick="askExample('What are the most common topics in negative comments?')">
+                        What are the most common topics in negative comments?
+                    </button>
+                    <button class="example-btn" onclick="askExample('What are the strategic communication recommendations?')">
+                        What are the strategic communication recommendations?
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-container">
+            <div class="input-wrapper">
+                <textarea 
+                    id="userInput" 
+                    placeholder="Ask a question about the analysis..." 
+                    rows="1"
+                    onkeydown="handleKeyPress(event)"
+                ></textarea>
+                <button class="send-btn" onclick="sendMessage()" id="sendBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+            <div class="input-footer">
+                <span class="connection-status" id="connectionStatus">
+                    <span class="status-dot"></span>
+                    Ready
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
