@@ -196,6 +196,35 @@ Guidelines:
 5. The analysis shows EXTREME negativity (1,957 negative vs 43 positive vs 42 neutral)
 6. Highlight psychosocial insights when relevant
 
+CHART GENERATION CAPABILITY:
+When the user asks for a chart, graph, visualization, or visual representation, you should:
+1. Provide a brief textual answer
+2. Include a chart specification in JSON format wrapped in special markers: [CHART_START] ... [CHART_END]
+
+Chart JSON format:
+{
+    "type": "bar|line|pie|doughnut|horizontalBar",
+    "title": "Chart Title",
+    "data": {
+        "labels": ["Label1", "Label2", ...],
+        "datasets": [{
+            "label": "Dataset Name",
+            "data": [value1, value2, ...],
+            "backgroundColor": ["#color1", "#color2", ...] (optional)
+        }]
+    },
+    "options": {
+        "description": "Brief description of what the chart shows"
+    }
+}
+
+Example chart types you can generate:
+- Sentiment distribution (pie/doughnut chart)
+- Top topics by frequency (bar chart)
+- Interest Index rankings (horizontal bar chart)
+- Sentiment comparison across posts (bar chart)
+- Time-based trends (line chart)
+
 Answer in the same language as the question (English or Spanish).
 """
         

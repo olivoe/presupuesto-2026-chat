@@ -136,14 +136,41 @@ function addMessage(role, content, sources = null) {
     const icon = role === 'user' ? '👤' : '🤖';
     const label = role === 'user' ? 'You' : 'AI Assistant';
     
+    // Extract chart specifications if present
+    let chartSpec = null;
+    let textContent = content;
+    
+    if (role === 'assistant') {
+        const chartMatch = content.match(/\[CHART_START\]([\s\S]*?)\[CHART_END\]/);
+        if (chartMatch) {
+            try {
+                chartSpec = JSON.parse(chartMatch[1].trim());
+                // Remove chart spec from text content
+                textContent = content.replace(/\[CHART_START\][\s\S]*?\[CHART_END\]/, '').trim();
+            } catch (e) {
+                console.error('Failed to parse chart specification:', e);
+            }
+        }
+    }
+    
     let html = `
         <div class="message-content">
             <div class="message-header">
                 <div class="message-icon">${icon}</div>
                 <div class="message-label">${label}</div>
             </div>
-            <div class="message-text">${role === 'assistant' ? renderMarkdown(content) : escapeHtml(content)}</div>
+            <div class="message-text">${role === 'assistant' ? renderMarkdown(textContent) : escapeHtml(textContent)}</div>
     `;
+    
+    // Add chart container if chart spec exists
+    if (chartSpec) {
+        const chartId = `chart-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        html += `
+            <div class="chart-container">
+                <canvas id="${chartId}"></canvas>
+            </div>
+        `;
+    }
     
     // Add sources if available
     if (sources && sources.length > 0) {
@@ -167,6 +194,14 @@ function addMessage(role, content, sources = null) {
         messageDiv.querySelectorAll('pre code').forEach(block => {
             hljs.highlightElement(block);
         });
+        
+        // Render chart if spec exists
+        if (chartSpec) {
+            const chartCanvas = messageDiv.querySelector(`#${chartId}`);
+            if (chartCanvas) {
+                renderChart(chartCanvas, chartSpec);
+            }
+        }
     }
 }
 
@@ -318,5 +353,145 @@ function exportConversation() {
     a.download = `presupuesto_2026_chat_${Date.now()}.json`;
     a.click();
     URL.revokeObjectURL(url);
+}
+
+// Render chart using Chart.js
+function renderChart(canvas, chartSpec) {
+    try {
+        // Default color schemes
+        const defaultColors = {
+            positive: '#10b981',
+            negative: '#ef4444',
+            neutral: '#94a3b8',
+            primary: '#667eea',
+            secondary: '#764ba2'
+        };
+        
+        // Generate colors if not provided
+        if (chartSpec.data.datasets) {
+            chartSpec.data.datasets.forEach(dataset => {
+                if (!dataset.backgroundColor) {
+                    // Generate colors based on chart type
+                    if (chartSpec.type === 'pie' || chartSpec.type === 'doughnut') {
+                        dataset.backgroundColor = generateColorPalette(chartSpec.data.labels.length);
+                    } else {
+                        dataset.backgroundColor = defaultColors.primary;
+                        dataset.borderColor = defaultColors.primary;
+                    }
+                }
+                
+                // Set border width for better visibility
+                if (!dataset.borderWidth) {
+                    dataset.borderWidth = chartSpec.type === 'pie' || chartSpec.type === 'doughnut' ? 2 : 0;
+                }
+            });
+        }
+        
+        // Configure chart options
+        const options = {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 12,
+                            family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif'
+                        },
+                        padding: 15,
+                        usePointStyle: true
+                    }
+                },
+                title: {
+                    display: !!chartSpec.title,
+                    text: chartSpec.title || '',
+                    font: {
+                        size: 16,
+                        weight: 'bold',
+                        family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif'
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 20
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    cornerRadius: 8,
+                    titleFont: {
+                        size: 14
+                    },
+                    bodyFont: {
+                        size: 13
+                    }
+                }
+            },
+            scales: chartSpec.type !== 'pie' && chartSpec.type !== 'doughnut' ? {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    },
+                    ticks: {
+                        font: {
+                            size: 11
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 11
+                        },
+                        maxRotation: 45,
+                        minRotation: 0
+                    }
+                }
+            } : {}
+        };
+        
+        // Handle horizontal bar chart
+        if (chartSpec.type === 'horizontalBar') {
+            chartSpec.type = 'bar';
+            options.indexAxis = 'y';
+        }
+        
+        // Merge with custom options if provided
+        if (chartSpec.options) {
+            Object.assign(options, chartSpec.options);
+        }
+        
+        // Create chart
+        new Chart(canvas, {
+            type: chartSpec.type,
+            data: chartSpec.data,
+            options: options
+        });
+        
+    } catch (error) {
+        console.error('Error rendering chart:', error);
+        canvas.parentElement.innerHTML = '<p style="color: #ef4444; padding: 20px;">Failed to render chart</p>';
+    }
+}
+
+// Generate color palette
+function generateColorPalette(count) {
+    const baseColors = [
+        '#667eea', '#764ba2', '#f093fb', '#4facfe',
+        '#43e97b', '#fa709a', '#fee140', '#30cfd0',
+        '#a8edea', '#fed6e3', '#c471f5', '#fa71cd'
+    ];
+    
+    const colors = [];
+    for (let i = 0; i < count; i++) {
+        colors.push(baseColors[i % baseColors.length]);
+    }
+    return colors;
 }
 

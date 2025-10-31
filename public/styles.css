@@ -264,6 +264,22 @@ body {
     margin-bottom: 6px;
 }
 
+/* Chart Container */
+.chart-container {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+.chart-container canvas {
+    max-height: 400px;
+    width: 100% !important;
+    height: auto !important;
+}
+
 /* Loading Animation */
 .loading {
     display: flex;
