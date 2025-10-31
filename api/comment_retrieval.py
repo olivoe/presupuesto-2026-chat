@@ -56,85 +56,8 @@ class CommentRetrieval:
         }
     }
     
-    # Static sample comments - ONLY used as emergency fallback if JSON data fails to load
-    # These should NEVER be returned when comments_data.json is available
-    SAMPLE_COMMENTS = {
-        'negative_corruption': [
-            "Puro robo, todo se lo roban y nosotros pagando impuestos para nada",
-            "Corruptos! Se aumentan el sueldo mientras el pueblo se muere de hambre",
-            "Que vergüenza de congreso, solo piensan en ellos y sus privilegios",
-            "Todo corrupto, nada cambia en este país",
-            "Se roban todo y nadie hace nada"
-        ],
-        'negative_infrastructure': [
-            "Y las Carreteras para cuando señor presidente?",
-            "que chiste, más hospitales dice pues yo sigo viendo los mismos y sin personal, si medicina, sin camillas, carreteras en pésimo estado",
-            "Y LAS CARRETERAS ??? DESTRUIDAS, PUENTES, EL PUERTO QUETZAL UNA SOLA GRUA DE 5 QUE SON",
-            "no aprueben nada no ay seguridad no ay carreteras no ay justicia este tipo es titere",
-            "descarado ladron, ni un km de carretera, más inseguridad"
-        ],
-        'negative_health': [
-            "Pero de seguro es como dijo el sobre la delincuencia solo es percepción porque no se ven las escuelas y los puestos de salud el pais esta abandonado.",
-            "de que medicina si en los capitales no hay yo me quedé sin medicamento 2 meses",
-            "más hospitales dice pues yo sigo viendo los mismos y sin personal, si medicina, sin camillas",
-            "todos los alimentos que están repartiendo son donaciones que china dio ya casi hace dos años y lo tienen en bodegas y no lo entregan",
-            "las medicinas en hospitales no hay medicinas todo se lo están robando estos ineptos descarados nefastos corruptos ladrones",
-            "mejor invertir en aulas en educación o en centros de salud que eso es de beneficios a los guatemaltecos"
-        ],
-        'positive_health': [
-            "Pública es más escuelas seguramente también invertirán en aumento a los cuidados y pensionados del 6 meses del seguro social",
-            "Seguramente más y mejor jubilados y pensionados del igss, aumento por el fabor",
-            "usted es un gran hombre lastima que se roban la medicina se enriquese un grupo de corruptos lo felicito señor presidente",
-            "me gusta saludos desde Calapte San Marcos Rafael Ramirez te saluda"
-        ],
-        'negative_president': [
-            "Arévalo es un fraude, prometió cambio y nada",
-            "El presidente no hace nada, puro show",
-            "Arévalo cómplice de la corrupción del congreso",
-            "Presidente débil que no defiende al pueblo",
-            "Arévalo traicionó al pueblo que votó por él"
-        ],
-        'negative_congress': [
-            "Diputados ladrones, todos corruptos",
-            "El congreso es una vergüenza nacional",
-            "Congresistas solo piensan en robar",
-            "Diputados parásitos del pueblo",
-            "Congreso corrupto que solo se aumenta sueldos"
-        ],
-        'negative_budget': [
-            "Presupuesto inflado para robar más",
-            "Todo el presupuesto se lo roban",
-            "Presupuesto 2026 es un robo al pueblo",
-            "Más dinero para ellos, nada para el pueblo",
-            "Presupuesto solo beneficia a los corruptos"
-        ],
-        'negative_taxes': [
-            "Pagamos impuestos para que se los roben",
-            "SAT nos cobra y ellos se roban todo",
-            "Impuestos altos y servicios pésimos",
-            "Nos cobran impuestos para sus lujos",
-            "SAT es cómplice de la corrupción"
-        ],
-        'negative_poverty': [
-            "El pueblo muriéndose de hambre y ellos con lujos",
-            "Pobreza extrema y ellos aumentándose sueldos",
-            "Costo de vida altísimo y ellos robando",
-            "Pueblo pobre y congreso rico",
-            "No alcanza para comer y ellos con millones"
-        ],
-        'positive_general': [
-            "Esperemos que este presupuesto sí funcione",
-            "Ojalá usen bien el dinero esta vez",
-            "Confiamos en que hagan las cosas bien",
-            "Que Dios permita que mejoren las cosas"
-        ],
-        'neutral_general': [
-            "A ver qué pasa con este presupuesto",
-            "Habrá que esperar a ver los resultados",
-            "Veremos si cumplen lo prometido",
-            "Esperemos que sea diferente esta vez"
-        ]
-    }
+    # STATIC SAMPLE_COMMENTS REMOVED - ONLY USE REAL DATA FROM comments_all.json
+    # No fabricated examples allowed under any circumstances
     
     def __init__(self):
         """Initialize comment retrieval system"""
@@ -299,53 +222,8 @@ class CommentRetrieval:
             print(f"Error in dynamic search: {e}")
             return None
     
-    def find_comments(
-        self,
-        sentiment: str = None,
-        topic: str = None,
-        max_results: int = 5
-    ) -> List[str]:
-        """
-        Find real comments based on filters
-        
-        Args:
-            sentiment: 'positive', 'negative', or 'neutral'
-            topic: keyword like 'corruption', 'infrastructure', 'president', etc.
-            max_results: maximum number of comments to return
-            
-        Returns:
-            List of comment texts
-        """
-        
-        # Build key for sample lookup
-        key_parts = []
-        if sentiment:
-            key_parts.append(sentiment.lower())
-        if topic:
-            key_parts.append(topic.lower())
-        
-        # Try to find matching samples
-        results = []
-        
-        # Try exact match first
-        if key_parts:
-            key = '_'.join(key_parts)
-            if key in self.SAMPLE_COMMENTS:
-                results = self.SAMPLE_COMMENTS[key][:max_results]
-        
-        # If no exact match, try sentiment only
-        if not results and sentiment:
-            for key, comments in self.SAMPLE_COMMENTS.items():
-                if key.startswith(sentiment.lower()):
-                    results.extend(comments)
-                    if len(results) >= max_results:
-                        break
-        
-        # If still no results, return general negative
-        if not results:
-            results = self.SAMPLE_COMMENTS.get('negative_corruption', [])[:max_results]
-        
-        return results[:max_results]
+    # find_comments() method REMOVED - was returning fabricated static examples
+    # All comment retrieval now goes through search_comments_dynamic() which uses real data
     
     def get_topic_stats(self, topic_key: str) -> Dict[str, Any]:
         """
@@ -485,32 +363,16 @@ class CommentRetrieval:
                 context += "Fuente: Muestra aleatoria de 2,042 comentarios extraídos de TikTok sobre Presupuesto 2026.\n"
                 return context
         
-        # Final fallback to static examples (ONLY if no comments data available)
+        # If we reach here without finding data, return message explaining no examples available
         if not stats_found:
-            # Map internal topic to comment key
-            topic_for_comments = None
-            if topic_key == 'salud':
-                topic_for_comments = 'health'
-            elif topic_key == 'infraestructura':
-                topic_for_comments = 'infrastructure'
-            elif topic_key == 'corrupcion':
-                topic_for_comments = 'corruption'
-            elif topic_key == 'congreso':
-                topic_for_comments = 'congress'
-            elif topic_key == 'presidente':
-                topic_for_comments = 'president'
-            elif topic_key == 'impuestos':
-                topic_for_comments = 'taxes'
-            elif topic_key == 'pobreza':
-                topic_for_comments = 'poverty'
-            
-            comments = self.find_comments(sentiment=sentiment, topic=topic_for_comments, max_results=5)
-            
-            if comments:
-                context += "**Ejemplos de comentarios reales:**\n\n"
-                for i, comment in enumerate(comments, 1):
-                    context += f"{i}. \"{comment}\"\n"
-                context += "\n"
+            if self.comments_df is None:
+                context += "**NOTA**: No se pudieron cargar los comentarios. Sistema funcionando en modo limitado.\n"
+            else:
+                context += "**NOTA**: No se encontraron comentarios específicos para esta consulta.\n"
+        
+        if context.strip() == "=== DATOS REALES DE COMENTARIOS ===":
+            # No content was added
+            return ""
         
         context += "Fuente: Análisis de 2,042 comentarios extraídos de TikTok sobre Presupuesto 2026.\n"
         
