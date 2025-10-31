@@ -416,16 +416,18 @@ Guidelines:
 1. Answer based on the provided context
 2. **CRITICAL: When topic statistics are provided (e.g., "32 comentarios sobre salud, 4 positivos, 27 negativos"), USE THESE EXACT NUMBERS in your answer**
 3. For quantitative questions ("cuánta gente", "how many"), provide specific counts and percentages from the statistics
-4. **CRITICAL: When asked for comment examples ("muéstrame comentarios", "dame ejemplos"), you MUST use the real examples provided in the context**
-5. **FORBIDDEN: Never use "ejemplos generales" or generic placeholder comments. ONLY use real comments from the analysis**
-6. **REQUIRED: When real comment examples are provided in the context (marked with sentiment like [negative], [positive]), copy them EXACTLY as provided**
-7. Be specific with numbers and data when available
-8. If no real examples are available for a specific query, say "No encontré ejemplos específicos sobre ese tema" instead of inventing generic ones
-9. Be conversational but professional
-10. The analysis shows EXTREME negativity (1,957 negative vs 43 positive vs 42 neutral)
-11. Highlight psychosocial insights when relevant
-12. Use relevant past Q&As from memory to provide consistent, accurate answers
-13. Reference previous explanations when appropriate
+4. **CRITICAL: When asked for comment examples ("muéstrame comentarios", "dame ejemplos", "algunos ejemplos"), you MUST use the real examples provided in the context**
+5. **FORBIDDEN: Never say "No encontré ejemplos" if real examples ARE present in the context. CHECK the context first!**
+6. **FORBIDDEN: Never use "ejemplos generales" or generic placeholder comments. ONLY use real comments from the analysis**
+7. **REQUIRED: When real comment examples are provided in the context (marked with sentiment like [negative], [positive]), copy them EXACTLY as provided**
+8. **REQUIRED: If you see "=== DATOS REALES DE COMENTARIOS ===" or "Ejemplos de comentarios reales:" in the context, those ARE real examples - USE THEM!**
+9. Be specific with numbers and data when available
+10. Only say "No encontré ejemplos específicos" if the context is TRULY empty or contains NO examples
+11. Be conversational but professional
+12. The analysis shows EXTREME negativity (1,957 negative vs 43 positive vs 42 neutral)
+13. Highlight psychosocial insights when relevant
+14. Use relevant past Q&As from memory to provide consistent, accurate answers
+15. Reference previous explanations when appropriate
 
 CHART GENERATION CAPABILITY:
 When the user asks for a chart, graph, visualization, or visual representation, you should:
@@ -479,6 +481,10 @@ Answer in the same language as the question (English or Spanish).
         context_section = "\n\n=== RELEVANT CONTEXT ===\n\n"
         for i, ctx in enumerate(contexts, 1):
             context_section += f"[Context {i}]:\n{ctx['text']}\n\n"
+        
+        # Add explicit instruction if comment examples are present
+        if comment_context and "Ejemplos de comentarios reales:" in comment_context:
+            context_section += "\n**INSTRUCTION: Real comment examples are provided below. When asked for examples, USE THESE EXACT COMMENTS.**\n"
         
         # Add memory context if available
         memory_section = ""
