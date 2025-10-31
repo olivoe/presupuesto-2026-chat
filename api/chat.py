@@ -45,7 +45,7 @@ class handler(BaseHTTPRequestHandler):
                 return
             
             # Retrieve relevant context (using pre-built knowledge base)
-            contexts = self._retrieve_context(message, top_k=5)
+            contexts = self._retrieve_context(message, top_k=8)
             
             # Build prompt
             prompt = self._build_prompt(message, contexts, conversation_history)
@@ -95,12 +95,17 @@ class handler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
     
-    def _retrieve_context(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+    def _retrieve_context(self, query: str, top_k: int = 8) -> List[Dict[str, Any]]:
         """
         Retrieve relevant context from knowledge base
         
-        For Vercel, we'll use a simplified approach with static context
-        or integrate with Pinecone/Supabase for vector search
+        Enhanced KB with:
+        - Precise statistics and bias-corrected sentiment data
+        - Interest Index rankings and methodology
+        - Account-specific performance data
+        - FAQs for common questions
+        - Topic analysis with psychosocial insights
+        - Strategic recommendations
         """
         
         # Load pre-computed knowledge base summaries from environment or file
@@ -109,23 +114,40 @@ class handler(BaseHTTPRequestHandler):
         contexts = [
             {
                 'text': """Presupuesto 2026 Analysis Overview:
-                - 24 TikTok posts analyzed about Guatemala's 2026 budget
-                - 2,042 comments extracted and analyzed
-                - Extreme negative sentiment: 95.9% negative (1,957 comments)
-                - Only 2.1% positive (43 comments), 2.1% neutral (42 comments)
-                - Interest Index calculated with historical and relative lift
-                - Topic analysis shows corruption (229 mentions) as #1 concern
+                - Total Posts Analyzed: 24 TikTok posts (21 with comments extracted)
+                - Total Comments: 2,042 comments analyzed
+                - Post Distribution: 7 approving posts (383 comments), 14 disapproving posts (1,659 comments)
+                - Comment Extraction Rate: 85% (estimated)
+                - Analysis Period: Posts from October-November 2025
+                - Sentiment Analysis: Dual model approach (Model A for approving posts: 73.1% accuracy, Model B for disapproving posts: 93.8% accuracy)
+                - Training Data: 172 manually annotated comments
+                - Interest Index: Calculated using historical baseline (account performance) and relative baseline (peer comparison)
+                - Top Interest Index: 12.799 (@mynoralfonsodelar - 112,800 views, 1,179.9% lift)
                 """,
                 'metadata': {'source': 'Project Overview', 'type': 'summary'}
             },
             {
-                'text': """Sentiment Analysis Findings:
-                - Dual model approach: separate models for approving vs disapproving posts
-                - Model A (approving posts): 73.1% accuracy
-                - Model B (disapproving posts): 93.8% accuracy
+                'text': """Sentiment Analysis Findings (Bias-Corrected):
+                OVERALL SENTIMENT (2,042 comments):
+                - Negative: 95.8% (CI: 81.5%-98.9%)
+                - Positive: 2.1% (CI: 0%-13.8%)
+                - Neutral: 2.1% (CI: 0.9%-6.4%)
+                
+                APPROVING POSTS (383 comments):
+                - Negative: 85.4% (CI: 81.5%-89.2%)
+                - Positive: 10.4% (CI: 7.1%-13.8%)
+                - Neutral: 4.2% (CI: 2.0%-6.4%)
+                
+                DISAPPROVING POSTS (1,659 comments):
+                - Negative: 98.3% (CI: 97.6%-98.9%)
+                - Positive: 0.2% (CI: 0%-0.4%)
+                - Neutral: 1.6% (CI: 0.9%-2.2%)
+                
+                METHODOLOGY:
+                - Dual ML models: Model A (approving): 73.1% accuracy, Model B (disapproving): 93.8% accuracy
                 - Training: 172 manually annotated comments
-                - Extreme polarization: overwhelming negativity across all posts
-                - Weighted by likes: negative comments receive more engagement
+                - Bias correction: Missing Data CI Inflation (extraction rate: 85%)
+                - Weighted by likes: Negative comments receive significantly more engagement
                 """,
                 'metadata': {'source': 'Sentiment Analysis', 'type': 'analysis'}
             },
@@ -175,6 +197,104 @@ class handler(BaseHTTPRequestHandler):
                 - Establish credible monitoring systems
                 """,
                 'metadata': {'source': 'Strategic Recommendations', 'type': 'recommendations'}
+            },
+            {
+                'text': """Interest Index Rankings (Top 10 Posts):
+                1. @mynoralfonsodelar (disapproving): Interest Index 12.80, 112,800 views, 1,179.9% lift
+                2. @mynoralfonsodelar (disapproving): Interest Index 5.93, 35,300 views, 492.8% lift
+                3. @defensapropiedadprivada (disapproving): Interest Index 3.83, 16,100 views, 282.9% lift
+                4. @dougcrisgt (disapproving): Interest Index 3.32, 189,400 views, 232.4% lift
+                5. @chechinrodas (approving): Interest Index 2.76, 2,481 views, 176.2% lift
+                6. @congreso.guate (approving): Interest Index 2.65, 18,900 views, 164.9% lift
+                7. @mynoralfonsodelar (disapproving): Interest Index 2.62, 13,600 views, 161.6% lift
+                8. @congreso.guate (approving): Interest Index 2.45, 3,186 views, 144.6% lift
+                9. @zonanoticiasguatemala (disapproving): Interest Index 2.06, 3,331 views, 106.0% lift
+                10. @bancada_cabal (disapproving): Interest Index 1.97, 1,932 views, 97.4% lift
+                
+                KEY INSIGHT: Disapproving posts dominate the top rankings (7 out of 10), with @mynoralfonsodelar showing exceptional performance.
+                """,
+                'metadata': {'source': 'Interest Index Rankings', 'type': 'data'}
+            },
+            {
+                'text': """Interest Index Methodology:
+                WHAT IS INTEREST INDEX?
+                - Measures how much a video exceeded expected performance (baseline)
+                - Interest Index = 1.0 means performance equal to baseline (0% lift)
+                - Interest Index = 2.0 means 2× baseline (100% lift)
+                - Interest Index = 12.8 means 12.8× baseline (1,180% lift)
+                
+                CALCULATION:
+                - Combines Historical Lift (vs account's typical performance) and Relative Lift (vs other posts in dataset)
+                - Uses geometric mean of normalized views, likes, comments, and shares
+                - Time-normalized to account for post age
+                - Bootstrap confidence intervals for uncertainty quantification
+                
+                FORMULA FOR LIFT:
+                Lift % = (Interest Index - 1) × 100
+                
+                EXAMPLE:
+                Interest Index of 12.799 = 1,179.9% more views than expected, or 1,279.9% of baseline
+                """,
+                'metadata': {'source': 'Interest Index Methodology', 'type': 'methodology'}
+            },
+            {
+                'text': """Key Accounts and Their Performance:
+                @mynoralfonsodelar (disapproving):
+                - 3 posts analyzed
+                - Top Interest Index: 12.80 (112,800 views)
+                - Consistently high engagement
+                - Focus: Critical of budget and government
+                
+                @congreso.guate (approving):
+                - 2 posts analyzed
+                - Interest Index: 2.65 and 2.45
+                - Official Congress account
+                - Focus: Defending budget decisions
+                
+                @defensapropiedadprivada (disapproving):
+                - Interest Index: 3.83 (16,100 views)
+                - High engagement rate: 11.0%
+                - Focus: Property rights and government criticism
+                
+                @dougcrisgt (disapproving):
+                - Interest Index: 3.32 (189,400 views)
+                - Highest raw view count in dataset
+                - Focus: Political commentary
+                
+                @bancada_cabal (stance changed from approving to disapproving):
+                - Originally labeled approving, corrected to disapproving
+                - Shows complexity of political positioning
+                """,
+                'metadata': {'source': 'Account Analysis', 'type': 'data'}
+            },
+            {
+                'text': """Frequently Asked Questions (FAQs):
+                
+                Q: How many posts were analyzed?
+                A: 24 TikTok posts total, with 21 posts having comments extracted (2,042 total comments).
+                
+                Q: What is the Interest Index?
+                A: A metric showing how much a video exceeded expected performance. Index of 1.0 = baseline, 2.0 = 100% lift, 12.8 = 1,180% lift.
+                
+                Q: What does "lift" mean?
+                A: Lift is the percentage increase above baseline. Calculated as: (Interest Index - 1) × 100.
+                
+                Q: Why are there two sentiment models?
+                A: Approving and disapproving posts have different linguistic contexts. Separate models (Model A and Model B) improve accuracy.
+                
+                Q: What is bias correction?
+                A: We only extracted 85% of comments. Missing Data CI Inflation widens confidence intervals to account for uncertainty from incomplete data.
+                
+                Q: What are the main topics?
+                A: Top 3: Corrupción (229 mentions), Presidente Arévalo (159), Congreso/Diputados (121).
+                
+                Q: What's the overall sentiment?
+                A: Extremely negative: 95.8% negative, 2.1% positive, 2.1% neutral (bias-corrected).
+                
+                Q: Which post performed best?
+                A: @mynoralfonsodelar with Interest Index 12.80 (112,800 views, 1,179.9% lift above baseline).
+                """,
+                'metadata': {'source': 'FAQs', 'type': 'reference'}
             }
         ]
         
