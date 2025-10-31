@@ -97,9 +97,14 @@ class handler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(response).encode())
             
         except Exception as e:
+            # Log the full error for debugging
+            print(f"ERROR in chat handler: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            
             error_response = {
                 'error': str(e),
-                'response': 'Sorry, there was an error processing your request.',
+                'response': 'Sorry, there was an error processing your request. Please try again.',
                 'sources': []
             }
             self.wfile.write(json.dumps(error_response).encode())
@@ -374,6 +379,22 @@ Example chart types you can generate:
 - Interest Index rankings (horizontal bar chart)
 - Sentiment comparison across posts (bar chart)
 - Time-based trends (line chart)
+
+EXAMPLE - Sentiment Distribution Bar Chart:
+[CHART_START]
+{
+    "type": "bar",
+    "title": "Sentiment Distribution",
+    "data": {
+        "labels": ["Negative", "Positive", "Neutral"],
+        "datasets": [{
+            "label": "Comments",
+            "data": [1957, 43, 42],
+            "backgroundColor": ["#ef4444", "#10b981", "#94a3b8"]
+        }]
+    }
+}
+[CHART_END]
 
 Answer in the same language as the question (English or Spanish).
 """
