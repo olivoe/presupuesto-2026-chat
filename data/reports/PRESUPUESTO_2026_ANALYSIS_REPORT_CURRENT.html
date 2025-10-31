@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Presupuesto 2026 - TikTok</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1a1a1a;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #2563eb;
+            font-size: 2.8em;
+            border-bottom: 5px solid #2563eb;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        h2 {
+            color: #3b82f6;
+            font-size: 2em;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            border-left: 8px solid #3b82f6;
+            padding-left: 20px;
+        }
+        
+        h3 {
+            color: #4b5563;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .header-meta {
+            text-align: center;
+            color: #6b7280;
+            font-size: 1.1em;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-card.positive {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .metric-card.negative {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+        
+        .metric-card.neutral {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        .metric-value {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .metric-label {
+            font-size: 1.1em;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+        
+        .metric-sublabel {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+        
+        .insight-box {
+            background: #fef3c7;
+            border-left: 8px solid #f59e0b;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 10px;
+            font-size: 1.15em;
+            line-height: 1.8;
+        }
+        
+        /* Introduction 4-column grid */
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .intro-column {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .intro-column:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+        
+        .intro-column h3 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .intro-column .emoji {
+            font-size: 1.5em;
+        }
+        
+        .intro-column p {
+            line-height: 1.7;
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+        
+        .intro-column strong {
+            color: #2d3748;
+        }
+        
+        .intro-column ul {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #4a5568;
+        }
+        
+        .intro-column img {
+            width: 100%;
+            height: auto;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .intro-column .img-caption {
+            font-size: 0.85em;
+            color: #718096;
+            text-align: center;
+            font-style: italic;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 1400px) {
+            .intro-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Info box for explanations */
+        .info-box {
+            background: #e0e7ff;
+            border-left: 6px solid #667eea;
+            padding: 20px 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+        
+        .info-box strong {
+            color: #4c51bf;
+        }
+        
+        .info-box code {
+            background: #c7d2fe;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #3730a3;
+        }
+        
+        .info-box .formula {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.05em;
+            color: #1e293b;
+        }
+        
+        .insight-box.critical {
+            background: #fee2e2;
+            border-left-color: #ef4444;
+        }
+        
+        .insight-box.positive {
+            background: #d1fae5;
+            border-left-color: #10b981;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 18px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+        
+        tr:hover {
+            background: #f9fafb;
+        }
+        
+        .rank-badge {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+        }
+        
+        .rank-badge.top {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        .sentiment-bar {
+            height: 30px;
+            background: #e5e7eb;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+            display: flex;
+        }
+        
+        .sentiment-bar-positive {
+            background: #10b981;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
+        .sentiment-bar-negative {
+            background: #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
+        .sentiment-bar-neutral {
+            background: #f59e0b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
+        .topic-list {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .topic-item {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 1.05em;
+        }
+        
+        .topic-item:last-child {
+            border-bottom: none;
+        }
+        
+        .topic-keywords {
+            color: #6b7280;
+            font-size: 0.95em;
+            margin-top: 5px;
+        }
+        
+        .methodology {
+            background: #f3f4f6;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6b7280;
+            border-top: 2px solid #e5e7eb;
+            margin-top: 60px;
+        }
+        
+        .post-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .post-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 5px 5px 5px 0;
+        }
+        
+        .badge-approving {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .badge-disapproving {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 20px;
+            }
+            .container {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Análisis Presupuesto 2026<br/>TikTok Comments & Sentiment</h1>
+        <div class="header-meta">
+            <strong>Análisis Completo de 20 Posts de TikTok</strong><br/>
+            Generado: 31 de October, 2025<br/>
+            Total de Comentarios Analizados: 2,042
+        </div>
+
+        <h2>📱 Introducción: El Caso para Análisis Basado en TikTok</h2>
+        
+        <div class="intro-grid">
+            <div class="intro-column">
+                <h3><span class="emoji">1️⃣</span> TikTok premia el rendimiento, no el pedigrí</h3>
+                <p>En TikTok, el contenido se comporta como una startup — puede volverse viral por mérito, no por conexiones.</p>
+                <p>A diferencia de plataformas centradas en redes (Facebook, Instagram, X), donde la visibilidad depende de quién eres y a quién conoces, el motor de exposición de TikTok prueba cada nuevo video en cohortes pequeñas y semi-aleatorias.</p>
+                <p><strong>Si los primeros espectadores miran, repiten o interactúan a tasas altas, el sistema amplifica automáticamente el video a grupos exponencialmente más grandes.</strong></p>
+                <p>Esto significa que una cuenta nueva con cinco seguidores puede alcanzar 1 millón de vistas en horas si el engagement es fuerte — una dinámica que aplana la jerarquía y permite que la calidad supere a la reputación.</p>
+                <img src="tiktok_growth_trajectory.png" alt="Simulated TikTok Growth Trajectory">
+                <p class="img-caption">Ilustración: trayectoria simulada de alto engagement — cada "salto" es una ola algorítmica de nueva exposición.</p>
+            </div>
+            
+            <div class="intro-column">
+                <h3><span class="emoji">2️⃣</span> Una vista en TikTok mide curiosidad real, no cortesía algorítmica</h3>
+                <p>Cada vista en TikTok es un acto de atención ganada.</p>
+                <p>Debido a que cada nueva cohorte se otorga solo cuando el engagement supera umbrales internos, las vistas son el proxy más limpio de interés genuino.</p>
+                <p>A diferencia de las impresiones en Facebook — que pueden resultar de sesgo de red o exposición cronológica — una vista en TikTok ocurre solo cuando el algoritmo detecta relevancia continua.</p>
+                <p><strong>Al comparar:</strong></p>
+                <ul>
+                    <li>Un <em>baseline</em> de cuenta (vistas históricas a lo largo del tiempo para ese creador), y</li>
+                    <li>Un <em>baseline</em> de tema (vistas para otras cuentas que cubren el mismo tema)</li>
+                </ul>
+                <p>Se puede calcular un <strong>Índice de Interés o lift</strong>, mostrando cuánta más atención generó un video en relación con la expectativa.</p>
+            </div>
+            
+            <div class="intro-column">
+                <h3><span class="emoji">3️⃣</span> En Guatemala, TikTok ha superado el alcance de Facebook — y su impulso</h3>
+                <p>El centro de atención digital en Guatemala ya ha cambiado.</p>
+                <p><strong>Datos recientes (DataReportal 2024, Statista 2025 Q1) muestran:</strong></p>
+                <ul>
+                    <li><strong>TikTok:</strong> ~9.0 – 10.4 millones de usuarios adultos (≈ 80 – 89% de 18+, 83 – 92% de usuarios de internet)</li>
+                    <li><strong>Facebook:</strong> ~8.5 – 9.5 millones (≈ 75 – 82% de adultos, 78 – 86% de usuarios de internet)</li>
+                </ul>
+                <p>Mientras el crecimiento de Facebook se ha estancado y su usuario promedio está envejeciendo, TikTok continúa acelerándose entre el demográfico de 18–35 años, comandando mayor uso diario y tiempo de permanencia.</p>
+                <p><strong>En términos prácticos, TikTok ahora proporciona el conjunto de datos más amplio y conductualmente más rico disponible en Guatemala</strong> para rastrear el interés público y el sentimiento en tiempo real.</p>
+            </div>
+            
+            <div class="intro-column">
+                <h3><span class="emoji">4️⃣</span> Desde una perspectiva de Ganancia de Información, los datos de TikTok superan a las encuestas</h3>
+                <p>Las encuestas preguntan qué piensa la gente; TikTok muestra a qué realmente reaccionan.</p>
+                <p>Las encuestas tradicionales capturan instantáneas de baja frecuencia y baja entropía: muestras pequeñas, opiniones auto-reportadas y respuestas moldeadas por deseabilidad social.</p>
+                <p><strong>TikTok, por el contrario, genera datos conductuales continuos de alta entropía</strong> — millones de micro-interacciones que reflejan emociones reales y cambios de atención.</p>
+                <p>Un análisis riguroso y a largo plazo de las métricas de engagement de TikTok — vistas, tasa de finalización, velocidad de compartir, polaridad de comentarios — puede producir poder predictivo sobre resultados electorales que supera las encuestas basadas en cuestionarios, una vez re-ponderado adecuadamente por demografía y probabilidades de participación.</p>
+                <p><strong>🎯 En un país donde TikTok alcanza hasta 9 – 10 millones de adultos, los datos de engagement ya no son ruido de entretenimiento — son telemetría conductual colectiva.</strong></p>
+            </div>
+        </div>
+        
+        <h2>📋 Resumen Ejecutivo</h2>
+        
+        <div class="metric-grid">
+            <div class="metric-card negative">
+                <div class="metric-label">Sentimiento Negativo</div>
+                <div class="metric-value">95.8%</div>
+                <div class="metric-sublabel">CI: 81.5%-98.9%</div>
+            </div>
+            <div class="metric-card positive">
+                <div class="metric-label">Sentimiento Positivo</div>
+                <div class="metric-value">2.1%</div>
+                <div class="metric-sublabel">CI: 0.0%-13.8%</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="metric-label">Sentimiento Neutral</div>
+                <div class="metric-value">2.1%</div>
+                <div class="metric-sublabel">CI: 0.9%-6.4%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Total Comentarios</div>
+                <div class="metric-value">2,042</div>
+                <div class="metric-sublabel">De 20 posts analizados</div>
+            </div>
+        </div>
+        
+        <div class="insight-box critical">
+            <strong>🔍 Hallazgo Principal:</strong> El sentimiento hacia el Presupuesto 2026 es <strong>abrumadoramente negativo (95.8%)</strong>. 
+            La opinión pública muestra fuerte desaprobación, con menos del 3% de comentarios positivos. Los temas dominantes incluyen 
+            corrupción, mala gestión del presupuesto, y críticas al gobierno.
+        </div>
+        
+        <div class="insight-box">
+            <strong>📊 Nota Metodológica:</strong> Los intervalos de confianza (CI) están ajustados para reflejar ~15% de comentarios no extraídos. 
+            Los resultados se basan en modelos de ML entrenados con 319 anotaciones manuales (73-85% de precisión).
+        </div>
+
+        <h2>📈 Ranking: Interest Index</h2>
+        
+        <p style="font-size: 1.1em; line-height: 1.7; margin: 20px 0;">
+        El <strong>Interest Index</strong> mide el nivel de interés generado por cada post en relación a:
+        <ul style="margin-left: 30px; line-height: 1.8;">
+            <li><strong>Baseline Histórico:</strong> Rendimiento típico de la cuenta</li>
+            <li><strong>Baseline Relativo:</strong> Comparación con los otros 19 posts analizados</li>
+        </ul>
+        Combina métricas de views, likes, comments y shares con normalización temporal y bootstrapping estadístico.
+        </p>
+        
+        <div class="info-box">
+            <strong>💡 Cómo interpretar el Interest Index:</strong>
+            <p style="margin: 10px 0;">
+            Un <strong>Interest Index</strong> indica cuántas veces el video superó el rendimiento esperado (<em>baseline</em>):
+            </p>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li><code>Interest Index = 1.0</code> → Rendimiento igual al <em>baseline</em> (0% de lift)</li>
+                <li><code>Interest Index = 2.0</code> → 2× el <em>baseline</em> (100% de lift)</li>
+                <li><code>Interest Index = 12.8</code> → 12.8× el <em>baseline</em> (1,180% de lift)</li>
+            </ul>
+            <div class="formula">
+                Lift % = (Interest Index - 1) × 100
+            </div>
+            <p style="margin: 10px 0 0 0; font-size: 0.9em; color: #4b5563;">
+            <strong>Ejemplo:</strong> Un Interest Index de <strong>12.799</strong> significa que el video obtuvo <strong>1,179.9% más vistas</strong> de lo esperado, 
+            o alcanzó el <strong>1,279.9% del baseline</strong>.
+            </p>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Usuario</th>
+                    <th>Stance</th>
+                    <th>Interest Index</th>
+                    <th>Views</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td><span class="rank-badge top">1</span></td>
+                    <td><strong>@@mynoralfonsodelar</strong></td>
+                    <td><span class="badge badge-disapproving">disapproving</span></td>
+                    <td><strong>12.799</strong></td>
+                    <td>112,800</td>
+                    <td>463</td>
+                </tr>
+
+                <tr>
+                    <td><span class="rank-badge top">2</span></td>
+                    <td><strong>@@mynoralfonsodelar</strong></td>
+                    <td><span class="badge badge-disapproving">disapproving</span></td>
+                    <td><strong>5.928</strong></td>
+                    <td>35,300</td>
+                    <td>78</td>
+                </tr>
+
+                <tr>
+                    <td><span class="rank-badge top">3</span></td>
+                    <td><strong>@@defensapropiedadprivada</strong></td>
+                    <td><span class="badge badge-disapproving">disapproving</span></td>
+                    <td><strong>3.829</strong></td>
+                    <td>16,100</td>
+                    <td>325</td>
+                </tr>
+
+                <tr>
+                    <td><span class="rank-badge ">4</span></td>
+                    <td><strong>@@dougcrisgt</strong></td>
+                    <td><span class="badge badge-disapproving">disapproving</span></td>
+                    <td><strong>3.324</strong></td>
+                    <td>189,400</td>
+                    <td>420</td>
+                </tr>
+
+                <tr>
+                    <td><span class="rank-badge ">5</span></td>
+                    <td><strong>@@chechinrodas</strong></td>
+                    <td><span class="badge badge-approving">approving</span></td>
+                    <td><strong>2.762</strong></td>
+                    <td>2,481</td>
+                    <td>7</td>
+                </tr>
+
+                <tr>
+                    <td><span class="rank-badge ">6</span></td>
+                    <td><strong>@@congreso.guate</strong></td>
+                    <td><span class="badge badge-approving">approving</span></td>
+                    <td><strong>2.649</strong></td>
+                    <td>18,900</td>
+                    <td>122</td>
+                </tr>
+
+                <tr>
+                    <td><span class="rank-badge ">7</span></td>
+                    <td><strong>@@mynoralfonsodelar</strong></td>
+                    <td><span class="badge badge-disapproving">disapproving</span></td>
+                    <td><strong>2.616</strong></td>
+                    <td>13,600</td>
+                    <td>52</td>
+                </tr>
+
+                <tr>
+                    <td><span class="rank-badge ">8</span></td>
+                    <td><strong>@@congreso.guate</strong></td>
+                    <td><span class="badge badge-approving">approving</span></td>
+                    <td><strong>2.446</strong></td>
+                    <td>3,186</td>
+                    <td>7</td>
+                </tr>
+
+                <tr>
+                    <td><span class="rank-badge ">9</span></td>
+                    <td><strong>@@zonanoticiasguatemala</strong></td>
+                    <td><span class="badge badge-disapproving">disapproving</span></td>
+                    <td><strong>2.060</strong></td>
+                    <td>3,331</td>
+                    <td>9</td>
+                </tr>
+
+                <tr>
+                    <td><span class="rank-badge ">10</span></td>
+                    <td><strong>@@mynoralfonsodelar</strong></td>
+                    <td><span class="badge badge-disapproving">disapproving</span></td>
+                    <td><strong>1.765</strong></td>
+                    <td>16,700</td>
+                    <td>66</td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <div class="insight-box">
+            <strong>💡 Insight:</strong> Los posts con mayor Interest Index generaron entre 2-5x más engagement que el promedio histórico de sus cuentas. 
+            El interés público en el tema Presupuesto 2026 es significativamente elevado.
+        </div>
+
+        <h2>💬 Análisis de Sentimiento</h2>
+        
+        <h3>Por Stance del Post</h3>
+        
+        <div class="metric-grid">
+
+            <div class="post-card">
+                <h3 style="margin-top: 0; color: #059669;">Posts Aprobando el Presupuesto</h3>
+                <p><strong>383 comentarios</strong></p>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 10.4%">
+                        10.4%
+                    </div>
+                    <div class="sentiment-bar-neutral" style="width: 4.2%">
+                        4.2%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 85.4%">
+                        85.4%
+                    </div>
+                </div>
+                <p style="font-size: 0.9em; color: #6b7280; margin-top: 15px;">
+                    Incluso en posts que apoyan el presupuesto, <strong>85.4% de los comentarios son negativos</strong>.
+                </p>
+            </div>
+
+            <div class="post-card">
+                <h3 style="margin-top: 0; color: #dc2626;">Posts Desaprobando el Presupuesto</h3>
+                <p><strong>1659 comentarios</strong></p>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.2%">
+                        0.2%
+                    </div>
+                    <div class="sentiment-bar-neutral" style="width: 1.6%">
+                        1.6%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 98.3%">
+                        98.3%
+                    </div>
+                </div>
+                <p style="font-size: 0.9em; color: #6b7280; margin-top: 15px;">
+                    En posts críticos del presupuesto, <strong>98.3% de los comentarios confirman el sentimiento negativo</strong>.
+                </p>
+            </div>
+
+        </div>
+        
+        <div class="insight-box critical">
+            <strong>🎯 Conclusión:</strong> El sentimiento negativo es consistente <strong>independientemente de la postura del post original</strong>. 
+            Incluso las cuentas que defienden el presupuesto reciben comentarios mayoritariamente negativos (85%), 
+            indicando un rechazo generalizado en la opinión pública.
+        </div>
+        
+        <h3>Sentimiento Ponderado por Likes</h3>
+        <p style="font-size: 1.05em; line-height: 1.7;">
+        Los comentarios con más likes (mayor apoyo comunitario) fueron analizados para entender qué mensajes resuenan más con la audiencia.
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Post Stance</th>
+                    <th>Negativo (Ponderado)</th>
+                    <th>Positivo (Ponderado)</th>
+                    <th>Neutral (Ponderado)</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td><strong>Approving</strong></td>
+                    <td>93.2%</td>
+                    <td>5.1%</td>
+                    <td>1.7%</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Disapproving</strong></td>
+                    <td>98.5%</td>
+                    <td>0.1%</td>
+                    <td>1.4%</td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <div class="insight-box">
+            <strong>💡 Insight:</strong> Cuando se pondera por likes, el sentimiento negativo <strong>se mantiene o aumenta</strong>, 
+            indicando que los comentarios negativos reciben más apoyo de la comunidad. Los comentarios más populares critican 
+            el presupuesto con temas de corrupción y mala gestión.
+        </div>
+
+        <h2>🔍 Análisis de Temas y Lectura Psicosocial</h2>
+        
+        <p style="font-size: 1.1em; line-height: 1.7; margin: 20px 0;">
+        Análisis exhaustivo de 2,042 comentarios utilizando métodos computacionales (<strong>TF-IDF</strong>, 
+        <strong>LDA</strong>, <strong>NMF</strong>) combinados con interpretación psicosocial cualitativa.
+        </p>
+        
+        <div class="insight-box critical">
+            <strong>📊 Clima General:</strong> Sentimiento <strong>marcadamente negativo</strong> (1,957 negativos vs. 43 positivos vs. 42 neutros).
+            La polarización afectiva extrema domina la conversación, reforzando espirales de negatividad y sesgo de confirmación.
+        </div>
+        
+        <h3>🎯 Temas Principales (Por Frecuencia y Relevancia)</h3>
+        
+        <div class="topic-list">
+            <div class="topic-item">
+                <strong>1. Corrupción (Transversal)</strong> - 229 menciones (219 neg / 4 pos / 6 neu)
+                <div class="topic-keywords">
+                    Co-ocurre con: Congreso/Diputados (15), Presidente (33), Semilla/Raíces (8), Ministros (4)
+                </div>
+                <p style="margin-top: 8px; color: #4b5563; font-size: 0.95em;">
+                    <em>Lectura psicosocial:</em> Predomina atribución disposicional ("son corruptos") vs situacional ("incentivos/estructura"), 
+                    apuntando a moralización del conflicto y desconfianza institucional profunda.
+                </p>
+            </div>
+            
+            <div class="topic-item">
+                <strong>2. Presidente (Arévalo)</strong> - 159 menciones (154 neg / 4 pos / 1 neu)
+                <div class="topic-keywords">
+                    Menciones directas "Bernardo Arévalo": 92
+                </div>
+                <p style="margin-top: 8px; color: #4b5563; font-size: 0.95em;">
+                    <em>Lectura:</em> Fuerte personalización de la responsabilidad (locus en figura presidencial) y sesgo de confirmación: 
+                    la narrativa negativa previa se refuerza con cualquier señal de disconformidad.
+                </p>
+            </div>
+            
+            <div class="topic-item">
+                <strong>3. Congreso / Diputados</strong> - 121 menciones (106 neg / 12 pos / 3 neu)
+                <p style="margin-top: 8px; color: #4b5563; font-size: 0.95em;">
+                    <em>Lectura:</em> Percibido como nodo de captura; marcos de "élite extractiva" y difusión de responsabilidad 
+                    ("todos son iguales") sostienen cinismo y baja expectativa de reforma.
+                </p>
+            </div>
+            
+            <div class="topic-item">
+                <strong>4. Presupuesto 2026 (objeto explícito)</strong> - 84 menciones (83 neg / 1 neu)
+                <p style="margin-top: 8px; color: #4b5563; font-size: 0.95em;">
+                    <em>Lectura:</em> Funciona como <strong>estímulo desencadenante</strong> para reclamos acumulados 
+                    (corrupción, prioridades, privilegios), más que discusión técnica.
+                </p>
+            </div>
+            
+            <div class="topic-item">
+                <strong>5. Infraestructura vial</strong> - 61 menciones (60 neg / 1 pos)
+                <div class="topic-keywords">
+                    Carreteras, baches, puentes
+                </div>
+                <p style="margin-top: 8px; color: #4b5563; font-size: 0.95em;">
+                    <em>Lectura:</em> Cercano a experiencia cotidiana; opera como <strong>prueba tangible</strong> del mal desempeño estatal. 
+                    Heurísticas de disponibilidad: el bache visible valida narrativa de abandono.
+                </p>
+            </div>
+            
+            <div class="topic-item">
+                <strong>6. Sueldos/dietas/privilegios políticos</strong> - 49 menciones (45 neg / 3 pos / 1 neu)
+                <p style="margin-top: 8px; color: #4b5563; font-size: 0.95em;">
+                    <em>Lectura:</em> Indignación moral por injusticia distributiva: percepción de "ellos ganan/derrochan" vs 
+                    "nosotros carecemos"; dinamiza resentimiento de estatus y zero-sum thinking.
+                </p>
+            </div>
+            
+            <div class="topic-item">
+                <strong>7. Partidos (Semilla/Raíces)</strong> - 40 menciones (33 neg / 7 pos)
+                <div class="topic-keywords">
+                    "Nueva Primavera" (10 menciones)
+                </div>
+                <p style="margin-top: 8px; color: #4b5563; font-size: 0.95em;">
+                    <em>Lectura:</em> Identidad social y polarización afectiva: etiquetas partidarias concentran prejuicios y expectativas; 
+                    amplifican sesgo de atribución hostil.
+                </p>
+            </div>
+            
+            <div class="topic-item">
+                <strong>8. Impuestos / Carga fiscal</strong> - 33 menciones (30 neg / 3 pos)
+                <p style="margin-top: 8px; color: #4b5563; font-size: 0.95em;">
+                    <em>Lectura:</em> Deslegitimación fiscal: pago de impuestos percibido como pérdida sin retorno, 
+                    erosionando cooperación cívica.
+                </p>
+            </div>
+            
+            <div class="topic-item">
+                <strong>9. Pobreza / Costo de vida</strong> - 32 menciones (30 neg / 1 pos / 1 neu)
+                <div class="topic-keywords">
+                    Canasta básica, inflación
+                </div>
+                <p style="margin-top: 8px; color: #4b5563; font-size: 0.95em;">
+                    <em>Lectura:</em> Estrés económico sostiene frustración e impotencia; facilita atribución global ("todo está peor").
+                </p>
+            </div>
+            
+            <div class="topic-item">
+                <strong>10. Ministros / Gabinete</strong> - 29 menciones (todas negativas)
+                <p style="margin-top: 8px; color: #4b5563; font-size: 0.95em;">
+                    <em>Lectura:</em> Extensión del reproche del líder a su equipo: dinámica de contagio de reputación y generalización.
+                </p>
+            </div>
+        </div>
+        
+        <h3 style="margin-top: 40px;">📊 Otros Temas Relevantes</h3>
+        
+        <table style="font-size: 0.95em;">
+            <thead>
+                <tr>
+                    <th>Tema</th>
+                    <th>Menciones</th>
+                    <th>Lectura Psicosocial</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Religión / Moral</strong></td>
+                    <td>26 (25 neg / 1 pos)</td>
+                    <td>Marco de juicio moral que absolutiza la condena ("bien/mal"), reduciendo apertura a matices técnicos</td>
+                </tr>
+                <tr>
+                    <td><strong>Empleo / Trabajo</strong></td>
+                    <td>25 (22 neg / 3 pos)</td>
+                    <td>Deprivación relativa: se compara "sacrificio" ciudadano con "privilegios" políticos</td>
+                </tr>
+                <tr>
+                    <td><strong>Educación / Escuelas</strong></td>
+                    <td>24 (22 neg / 1 pos / 1 neu)</td>
+                    <td>Indicador tangible de fracaso estatal; consolida aprendizaje de indefensión ("nada cambia")</td>
+                </tr>
+                <tr>
+                    <td><strong>Seguridad / Crimen</strong></td>
+                    <td>24 (todas negativas)</td>
+                    <td>Amenaza percibida alta sostiene posturas punitivas y simplificación causal</td>
+                </tr>
+                <tr>
+                    <td><strong>Salud / Hospitales</strong></td>
+                    <td>23 (22 neg / 1 pos)</td>
+                    <td>Necesidad básica incumplida → indignación moral + culpabilización</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 style="margin-top: 40px;">👤 Figuras Específicas Mencionadas</h3>
+        
+        <div style="background: #f9fafb; padding: 20px; border-radius: 10px; margin: 20px 0;">
+            <ul style="line-height: 2; font-size: 1.05em;">
+                <li><strong>Bernardo Arévalo:</strong> 92 menciones (señal de agenda política y gatillo identitario)</li>
+                <li><strong>Andrea Villagrán:</strong> 7 menciones (concentra sentimiento positivo)</li>
+                <li><strong>Samuel Pérez:</strong> 9 menciones</li>
+                <li><strong>"Nueva Primavera":</strong> 10 menciones (lema identitario)</li>
+                <li><strong>"Golpe de Estado":</strong> 8 menciones (marco político activo)</li>
+            </ul>
+        </div>
+        
+        <h3 style="margin-top: 40px;">🧠 Síntesis Psicosocial</h3>
+        
+        <div class="insight-box critical">
+            <h4 style="margin-top: 0;">1. Polarización Afectiva Extrema</h4>
+            <p>
+                Con 1,957 negativos vs 43 positivos, la interacción está dominada por emociones de rechazo. 
+                Esto refuerza <strong>espirales de negatividad</strong> (sesgo de negatividad + profecía autocumplida: 
+                "todo está mal" → atención selectiva a pruebas de que "todo está mal").
+            </p>
+        </div>
+        
+        <div class="insight-box">
+            <h4 style="margin-top: 0;">2. Moralización y Castigo Simbólico</h4>
+            <p>
+                Alta frecuencia de corrupción (229), sueldos/privilegios (49), señalamiento al Presidente (159) y Congreso (121) 
+                muestra narrativa de <strong>ofensa moral</strong> y demanda de sanción (aunque sea retórica), 
+                típica de agravios morales en contextos de desigualdad.
+            </p>
+        </div>
+        
+        <div class="insight-box">
+            <h4 style="margin-top: 0;">3. Personalización y Ampliación del Reproche</h4>
+            <p>
+                La culpa se concentra en actores visibles (Presidente/Congreso), pero se expande a Ministros (29) y partidos (40), 
+                coherente con <strong>atribución global</strong> y difusión de responsabilidad ("todos están en lo mismo").
+            </p>
+        </div>
+        
+        <div class="insight-box">
+            <h4 style="margin-top: 0;">4. Pruebas Tangibles de Desempeño Fallido</h4>
+            <p>
+                Carreteras (61), salud (23), educación (24), seguridad (24), costo de vida (32). Son <strong>experiencias cotidianas</strong> 
+                que activan heurísticas de disponibilidad: lo que se ve (baches, falta de medicinas) pesa más que explicaciones técnicas.
+            </p>
+        </div>
+        
+        <div class="insight-box">
+            <h4 style="margin-top: 0;">5. Erosión de Legitimidad Fiscal</h4>
+            <p>
+                Impuestos/carga fiscal (33) con saldo negativo sugiere <strong>quiebre del pacto contributivo</strong>: 
+                pagar se percibe injusto cuando el Estado se percibe ineficiente o capturado.
+            </p>
+        </div>
+        
+        <div class="insight-box">
+            <h4 style="margin-top: 0;">6. Identidad y Estigmas Partidarios</h4>
+            <p>
+                Referencias a Semilla/Raíces (40) y lemas/nombres propios indican <strong>anclajes identitarios</strong> 
+                que intensifican sesgos de atribución hostil y pensamiento tribal.
+            </p>
+        </div>
+        
+        <h3 style="margin-top: 40px;">💡 Implicaciones Estratégicas</h3>
+        
+        <div style="background: #dbeafe; border-left: 8px solid #3b82f6; padding: 25px; border-radius: 10px; margin: 20px 0;">
+            <h4 style="margin-top: 0; color: #1e40af;">Mensajes que Funcionarían:</h4>
+            <ul style="line-height: 1.9;">
+                <li>Vínculo entre presupuesto → <strong>resultados visibles</strong> en infraestructura, salud, educación</li>
+                <li>Evidencias concretas y <strong>plazos verificables</strong></li>
+                <li>Micro-evidencias: obras terminadas, medicinas entregadas</li>
+            </ul>
+            
+            <h4 style="margin-top: 25px; color: #991b1b;">Riesgos Comunicativos:</h4>
+            <ul style="line-height: 1.9;">
+                <li>Con 219/229 menciones de corrupción negativas, cualquier narrativa técnica sin <strong>garantías de control</strong> 
+                (auditoría/contraloría) será leída como "spin"</li>
+                <li>Promesas generales sin evidencia concreta activarán mayor escepticismo</li>
+            </ul>
+            
+            <h4 style="margin-top: 25px; color: #065f46;">Claves de Confianza:</h4>
+            <ul style="line-height: 1.9;">
+                <li><strong>Rendición de cuentas:</strong> Auditorías abiertas, hitos públicos</li>
+                <li><strong>Gestión de identidad:</strong> Reconocer agravios morales y costo de vida antes de pedir "paciencia"</li>
+                <li>Usar lenguaje de <strong>justicia distributiva</strong> y prioridades claras puede bajar tono punitivo</li>
+            </ul>
+        </div>
+        
+        <div style="background: #f3f4f6; padding: 20px; border-radius: 10px; margin: 20px 0; font-size: 0.9em; color: #6b7280;">
+            <strong>Nota Metodológica:</strong> Análisis basado en extracción computacional de temas (TF-IDF, LDA, NMF) 
+            complementado con análisis cualitativo psicosocial de frecuencias, co-ocurrencias y patrones semánticos.
+        </div>
+
+        <h2>📊 Detalle por Post</h2>
+        
+        <p style="font-size: 1.05em; margin: 20px 0;">
+        Vista detallada de cada post analizado, ordenados por Interest Index.
+        </p>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge top">#1</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@mynoralfonsodelar</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">12.799</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">112,800</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">6,797</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">494</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">2,360</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 99.0%">
+                        99.0%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge top">#2</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@mynoralfonsodelar</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">5.928</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">35,300</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">1,321</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">94</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">276</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 98.3%">
+                        98.3%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge top">#3</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@defensapropiedadprivada</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">3.829</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">16,100</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">939</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">287</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">511</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 99.6%">
+                        99.6%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#4</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@dougcrisgt</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">3.324</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">189,400</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">9,954</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">503</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">706</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.1%">
+                        0.1%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 99.6%">
+                        99.6%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#5</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@chechinrodas</strong>
+                    <span class="badge badge-approving" style="margin-left: 10px;">approving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">2.762</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">2,481</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">120</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">15</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">23</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 100.0%">
+                        100.0%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#6</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@congreso.guate</strong>
+                    <span class="badge badge-approving" style="margin-left: 10px;">approving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">2.649</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">18,900</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">881</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">146</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">16</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 13.2%">
+                        13.2%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 81.4%">
+                        81.4%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#7</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@mynoralfonsodelar</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">2.616</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">13,600</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">650</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">64</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">77</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 94.3%">
+                        94.3%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#8</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@congreso.guate</strong>
+                    <span class="badge badge-approving" style="margin-left: 10px;">approving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">2.446</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">3,186</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">57</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">5</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">4</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 100.0%">
+                        100.0%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#9</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@zonanoticiasguatemala</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">2.060</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">3,331</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">61</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">9</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">5</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 100.0%">
+                        100.0%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#10</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@mynoralfonsodelar</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">1.765</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">16,700</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">817</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">68</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">304</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 99.7%">
+                        99.7%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#11</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@lamacetaguate</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">1.738</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">1,343</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">112</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">49</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">10</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 100.0%">
+                        100.0%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#12</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@avillagran502</strong>
+                    <span class="badge badge-approving" style="margin-left: 10px;">approving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">1.526</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">11,300</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">492</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">55</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">7</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 18.3%">
+                        18.3%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 76.8%">
+                        76.8%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#13</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@mynoralfonsodelar</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">1.494</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">14,400</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">681</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">33</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">226</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 1.0%">
+                        1.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 99.0%">
+                        99.0%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#14</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@rikrdo.alejandro</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">1.414</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">1,705</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">14</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">11</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">4</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 90.9%">
+                        90.9%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#15</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@247_prensadigital</strong>
+                    <span class="badge badge-approving" style="margin-left: 10px;">approving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">1.230</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">4,512</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">97</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">160</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">29</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 4.2%">
+                        4.2%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 94.2%">
+                        94.2%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#16</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@liberalgt</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">0.945</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">540</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">7</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">7</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">0</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 100.0%">
+                        100.0%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#17</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@bancada_cabal</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">0.839</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">748</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">35</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">1</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">1</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 100.0%">
+                        100.0%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#18</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@mynoralfonsodelar</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">0.664</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">5,977</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">424</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">N/A</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">75</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: nan%">
+                        nan%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: nan%">
+                        nan%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#19</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@luishazmitia</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">0.554</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">3,621</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">202</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">15</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">18</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 100.0%">
+                        100.0%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#20</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@sonoraguatemala969</strong>
+                    <span class="badge badge-approving" style="margin-left: 10px;">approving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">0.522</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">412</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">10</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">1</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">0</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 100.0%">
+                        100.0%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <span class="rank-badge ">#21</span>
+                    <strong style="font-size: 1.3em; margin-left: 15px;">@@lamacetaguate</strong>
+                    <span class="badge badge-disapproving" style="margin-left: 10px;">disapproving</span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.9em; color: #6b7280;">Interest Index</div>
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3b82f6;">0.162</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Views</div>
+                    <div style="font-weight: bold;">1,362</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Likes</div>
+                    <div style="font-weight: bold;">92</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Comments</div>
+                    <div style="font-weight: bold;">25</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #6b7280;">Shares</div>
+                    <div style="font-weight: bold;">17</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 8px;">Sentimiento Ponderado:</div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-bar-positive" style="width: 0.0%">
+                        0.0%
+                    </div>
+                    <div class="sentiment-bar-negative" style="width: 100.0%">
+                        100.0%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>📚 Metodología</h2>
+        
+        <div class="methodology">
+            <h3 style="margin-top: 0;">1. Extracción de Datos</h3>
+            <ul style="line-height: 1.8;">
+                <li><strong>Posts:</strong> 20 videos de TikTok sobre "Presupuesto 2026"</li>
+                <li><strong>Comentarios:</strong> 2,042 comentarios extraídos (~85% estimado)</li>
+                <li><strong>API:</strong> Apify (clockworks/tiktok-scraper)</li>
+            </ul>
+            
+            <h3>2. Interest Index</h3>
+            <ul style="line-height: 1.8;">
+                <li><strong>Baseline Histórico:</strong> Comparación con posts anteriores de cada cuenta</li>
+                <li><strong>Baseline Relativo:</strong> Comparación entre los 20 posts analizados</li>
+                <li><strong>Métricas:</strong> Views, likes, comments, shares (normalizados por tiempo)</li>
+                <li><strong>Método:</strong> Geometric mean + Bootstrap CI + Permutation testing</li>
+            </ul>
+            
+            <h3>3. Clasificación de Sentimiento</h3>
+            <ul style="line-height: 1.8;">
+                <li><strong>Modelos:</strong> Dos modelos separados (TF-IDF + Logistic Regression)</li>
+                <li><strong>Model A (Approving):</strong> 73.1% precisión (126 muestras de entrenamiento)</li>
+                <li><strong>Model B (Disapproving):</strong> 84.6% precisión (193 muestras de entrenamiento)</li>
+                <li><strong>Anotaciones:</strong> 319 comentarios etiquetados manualmente</li>
+                <li><strong>Labels:</strong> Positivo, Negativo, Neutral (hacia Presupuesto 2026)</li>
+            </ul>
+            
+            <h3>4. Corrección de Sesgo</h3>
+            <ul style="line-height: 1.8;">
+                <li><strong>Método:</strong> Missing Data CI Inflation (Método 3)</li>
+                <li><strong>Tasa de extracción:</strong> 85% (conservador)</li>
+                <li><strong>Factor de inflación:</strong> 1.085x para intervalos de confianza</li>
+                <li><strong>Nota:</strong> Se rechazó Confusion Matrix Inversion por inestabilidad numérica</li>
+            </ul>
+            
+            <h3>5. Análisis de Temas</h3>
+            <ul style="line-height: 1.8;">
+                <li><strong>TF-IDF:</strong> Palabras distintivas por grupo de sentimiento</li>
+                <li><strong>LDA:</strong> Latent Dirichlet Allocation para temas probabilísticos</li>
+                <li><strong>NMF:</strong> Non-Negative Matrix Factorization para separación limpia</li>
+                <li><strong>Stopwords:</strong> Lista expandida para español guatemalteco</li>
+            </ul>
+            
+            <h3>6. Sentimiento Ponderado</h3>
+            <ul style="line-height: 1.8;">
+                <li><strong>Peso:</strong> Likes de comentario + 1 (método linear)</li>
+                <li><strong>Alternativas evaluadas:</strong> Square root, logarithmic, binary</li>
+                <li><strong>Propósito:</strong> Identificar qué mensajes resuenan más con la audiencia</li>
+            </ul>
+        </div>
+        
+        <div class="insight-box">
+            <strong>🔬 Validación:</strong> Los resultados fueron validados por experto humano mediante revisión de muestras. 
+            El sentimiento observado (95.8% negativo) es consistente con las anotaciones manuales (79.9% negativo en muestra) 
+            y observaciones cualitativas del contenido.
+        </div>
+
+        <div class="footer">
+            <p style="font-size: 1.1em; margin-bottom: 15px;">
+                <strong>Análisis Presupuesto 2026 - TikTok Comments & Sentiment</strong>
+            </p>
+            <p style="color: #9ca3af;">
+                Generado: 31 de October, 2025 a las 07:42<br/>
+                Total Comentarios: 2,042 | Posts: 21 | Anotaciones Manuales: 319<br/>
+                Métodos: Interest Index, ML Sentiment Classification, Topic Analysis (TF-IDF/LDA/NMF), Bias Correction
+            </p>
+        </div>
+    </div>
+</body>
+</html>

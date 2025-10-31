@@ -1,0 +1,214 @@
+{
+  "salud": {
+    "keywords": [
+      "salud",
+      "hospital",
+      "medicina",
+      "medico",
+      "doctor",
+      "enfermera",
+      "clinica",
+      "igss"
+    ],
+    "total": 31,
+    "negative": 27,
+    "positive": 3,
+    "neutral": 1,
+    "pct_negative": 87.1,
+    "pct_positive": 9.7,
+    "pct_neutral": 3.2
+  },
+  "educacion": {
+    "keywords": [
+      "educacion",
+      "educación",
+      "escuela",
+      "maestro",
+      "profesor",
+      "estudiante",
+      "universidad"
+    ],
+    "total": 25,
+    "negative": 23,
+    "positive": 1,
+    "neutral": 1,
+    "pct_negative": 92.0,
+    "pct_positive": 4.0,
+    "pct_neutral": 4.0
+  },
+  "infraestructura": {
+    "keywords": [
+      "carretera",
+      "calle",
+      "camino",
+      "infraestructura",
+      "vial",
+      "puente",
+      "hoyo",
+      "bache"
+    ],
+    "total": 68,
+    "negative": 67,
+    "positive": 1,
+    "neutral": 0,
+    "pct_negative": 98.5,
+    "pct_positive": 1.5,
+    "pct_neutral": 0.0
+  },
+  "transporte": {
+    "keywords": [
+      "transporte",
+      "bus",
+      "camioneta",
+      "pasaje",
+      "movilidad"
+    ],
+    "total": 11,
+    "negative": 11,
+    "positive": 0,
+    "neutral": 0,
+    "pct_negative": 100.0,
+    "pct_positive": 0.0,
+    "pct_neutral": 0.0
+  },
+  "corrupcion": {
+    "keywords": [
+      "corrup",
+      "robo",
+      "ladron",
+      "ladrón",
+      "roba",
+      "roban"
+    ],
+    "total": 291,
+    "negative": 280,
+    "positive": 4,
+    "neutral": 7,
+    "pct_negative": 96.2,
+    "pct_positive": 1.4,
+    "pct_neutral": 2.4
+  },
+  "impuestos": {
+    "keywords": [
+      "impuesto",
+      "sat",
+      "tax",
+      "fiscal"
+    ],
+    "total": 36,
+    "negative": 33,
+    "positive": 3,
+    "neutral": 0,
+    "pct_negative": 91.7,
+    "pct_positive": 8.3,
+    "pct_neutral": 0.0
+  },
+  "pobreza": {
+    "keywords": [
+      "pobre",
+      "hambre",
+      "costo",
+      "canasta"
+    ],
+    "total": 36,
+    "negative": 34,
+    "positive": 1,
+    "neutral": 1,
+    "pct_negative": 94.4,
+    "pct_positive": 2.8,
+    "pct_neutral": 2.8
+  },
+  "congreso": {
+    "keywords": [
+      "congreso",
+      "diputado",
+      "legisl",
+      "bancada"
+    ],
+    "total": 107,
+    "negative": 103,
+    "positive": 2,
+    "neutral": 2,
+    "pct_negative": 96.3,
+    "pct_positive": 1.9,
+    "pct_neutral": 1.9
+  },
+  "presidente": {
+    "keywords": [
+      "presidente",
+      "arevalo",
+      "arévalo",
+      "bernardo"
+    ],
+    "total": 175,
+    "negative": 169,
+    "positive": 5,
+    "neutral": 1,
+    "pct_negative": 96.6,
+    "pct_positive": 2.9,
+    "pct_neutral": 0.6
+  },
+  "seguridad": {
+    "keywords": [
+      "seguridad",
+      "delincuencia",
+      "crimen",
+      "violencia",
+      "policia",
+      "policía",
+      "inseguridad"
+    ],
+    "total": 14,
+    "negative": 14,
+    "positive": 0,
+    "neutral": 0,
+    "pct_negative": 100.0,
+    "pct_positive": 0.0,
+    "pct_neutral": 0.0
+  },
+  "empleo": {
+    "keywords": [
+      "empleo",
+      "trabajo",
+      "desempleo",
+      "empleado"
+    ],
+    "total": 26,
+    "negative": 23,
+    "positive": 3,
+    "neutral": 0,
+    "pct_negative": 88.5,
+    "pct_positive": 11.5,
+    "pct_neutral": 0.0
+  },
+  "vivienda": {
+    "keywords": [
+      "vivienda",
+      "casa",
+      "alquiler",
+      "renta"
+    ],
+    "total": 10,
+    "negative": 10,
+    "positive": 0,
+    "neutral": 0,
+    "pct_negative": 100.0,
+    "pct_positive": 0.0,
+    "pct_neutral": 0.0
+  },
+  "canasta_basica": {
+    "keywords": [
+      "canasta",
+      "alimento",
+      "comida",
+      "precio"
+    ],
+    "total": 15,
+    "negative": 13,
+    "positive": 2,
+    "neutral": 0,
+    "pct_negative": 86.7,
+    "pct_positive": 13.3,
+    "pct_neutral": 0.0
+  }
+}

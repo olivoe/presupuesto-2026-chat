@@ -184,8 +184,12 @@ class CommentRetrieval:
         try:
             import json
             
-            # Try to load from JSON file (works in Vercel)
-            json_path = os.path.join(os.path.dirname(__file__), 'comments_data.json')
+            # Try to load from JSON file (works in Vercel) - NEW LOCATION
+            json_path = os.path.join(os.path.dirname(__file__), '../data/comments/comments_all.json')
+            
+            # Fallback to old location for backwards compatibility
+            if not os.path.exists(json_path):
+                json_path = os.path.join(os.path.dirname(__file__), 'comments_data.json')
             
             if os.path.exists(json_path):
                 with open(json_path, 'r', encoding='utf-8') as f:

@@ -23,6 +23,18 @@ try:
 except ImportError:
     CommentRetrieval = None
 
+# Import post retrieval system
+try:
+    from .post_retrieval import PostRetrieval
+except ImportError:
+    PostRetrieval = None
+
+# Import topic retrieval system
+try:
+    from .topic_retrieval import TopicRetrieval
+except ImportError:
+    TopicRetrieval = None
+
 class handler(BaseHTTPRequestHandler):
     """Vercel serverless handler"""
     
@@ -77,11 +89,31 @@ class handler(BaseHTTPRequestHandler):
                     print(f"Comment retrieval error: {e}")
                     comment_context = ""
             
+            # Initialize post retrieval system (if available)
+            post_context = ""
+            if PostRetrieval is not None:
+                try:
+                    post_retrieval = PostRetrieval()
+                    post_context = post_retrieval.get_post_context(message)
+                except Exception as e:
+                    print(f"Post retrieval error: {e}")
+                    post_context = ""
+            
+            # Initialize topic retrieval system (if available)
+            topic_context = ""
+            if TopicRetrieval is not None:
+                try:
+                    topic_retrieval = TopicRetrieval()
+                    topic_context = topic_retrieval.get_topic_context(message)
+                except Exception as e:
+                    print(f"Topic retrieval error: {e}")
+                    topic_context = ""
+            
             # Retrieve relevant context (using pre-built knowledge base)
             contexts = self._retrieve_context(message, top_k=8)
             
             # Build prompt
-            prompt = self._build_prompt(message, contexts, conversation_history, memory_context, comment_context)
+            prompt = self._build_prompt(message, contexts, conversation_history, memory_context, comment_context, post_context, topic_context)
             
             # Generate response with GPT-4
             try:
@@ -363,9 +395,11 @@ class handler(BaseHTTPRequestHandler):
         contexts: List[Dict[str, Any]],
         conversation_history: List[Dict[str, str]],
         memory_context: str = "",
-        comment_context: str = ""
+        comment_context: str = "",
+        post_context: str = "",
+        topic_context: str = ""
     ) -> str:
-        """Build prompt for LLM with memory and comment context"""
+        """Build prompt for LLM with all context sources"""
         
         system_prompt = """You are an expert AI assistant specialized in the Presupuesto 2026 TikTok analysis project.
 
@@ -456,6 +490,16 @@ Answer in the same language as the question (English or Spanish).
         if comment_context:
             comment_section = comment_context
         
+        # Add post context if available
+        post_section = ""
+        if post_context:
+            post_section = post_context
+        
+        # Add topic context if available
+        topic_section = ""
+        if topic_context:
+            topic_section = topic_context
+        
         # Build conversation history
         history_section = ""
         if conversation_history:
@@ -465,7 +509,7 @@ Answer in the same language as the question (English or Spanish).
                 content = msg.get('content', '')
                 history_section += f"{role.upper()}: {content}\n\n"
         
-        prompt = system_prompt + context_section + memory_section + comment_section + history_section
+        prompt = system_prompt + context_section + memory_section + comment_section + post_section + topic_section + history_section
         
         return prompt
     

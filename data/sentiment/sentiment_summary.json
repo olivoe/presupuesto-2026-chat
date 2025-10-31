@@ -1,0 +1,25 @@
+{
+  "overall": {
+    "total_comments": 2042,
+    "negative": 1957,
+    "positive": 43,
+    "neutral": 42,
+    "pct_negative": 95.84,
+    "pct_positive": 2.11,
+    "pct_neutral": 2.06
+  },
+  "by_post_stance": {
+    "disapproving": {
+      "total": 1660,
+      "negative": 1631,
+      "positive": 3,
+      "neutral": 26
+    },
+    "approving": {
+      "total": 382,
+      "negative": 326,
+      "positive": 40,
+      "neutral": 16
+    }
+  }
+}

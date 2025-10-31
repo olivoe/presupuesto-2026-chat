@@ -1,0 +1,61 @@
+﻿Trabajé sobre los 2,042 comentarios y usé la columna de predicted_sentiment_ml_v3. El clima general es marcadamente negativo (negativos: 1,957; positivos: 43; neutros: 42).
+Hallazgos por temas (todos los que emergen del corpus)
+• Corrupción (transversal): aparece con mucha frecuencia (229 menciones; negativas: 219, positivas: 4, neutras: 6). Co-ocurre con Congreso/Diputados (15), con Presidente (33), con Semilla/Raíces (8) y con Ministros/Gabinete (4).
+Lectura psicosocial: Predomina la atribución disposicional (“son corruptos”) frente a la situacional (“incentivos/estructura”), apuntando a moralización del conflicto y desconfianza institucional.
+• Presidente (Arévalo): 159 menciones (negativas: 154; positivas: 4; neutras: 1). Menciones directas a “Arévalo/Bernardo”: 92.
+Lectura: Fuerte personalización de la responsabilidad (locus en la figura presidencial) y sesgo de confirmación: la narrativa negativa previa se refuerza con cualquier señal de disconformidad (presupuesto).
+• Congreso / Diputados: 121 menciones (negativas: 106; positivas: 12; neutras: 3).
+Lectura: El Congreso es percibido como nodo de captura; se activan marcos de “élite extractiva” y difusión de responsabilidad (“todos son iguales”), que sostiene el cinismo y la baja expectativa de reforma.
+• Presupuesto 2026 (como objeto explícito): 84 menciones (negativas: 83; neutras: 1).
+Lectura: El presupuesto funciona como estímulo desencadenante para reclamos acumulados (corrupción, prioridades de gasto, privilegios), más que como discusión técnica.
+• Infraestructura vial (carreteras/baches/puentes): 61 menciones (negativas: 60; positivas: 1).
+Lectura: Tema cercano a la experiencia cotidiana; opera como prueba tangible del (mal) desempeño estatal. Favorece heurísticas de disponibilidad: el bache visible valida la narrativa de abandono.
+• Sueldos/dietas/privilegios de políticos: 49 menciones (negativas: 45; positivas: 3; neutras: 1).
+Lectura: Indignación moral por injusticia distributiva: percepción de “ellos ganan/derrochan” vs “nosotros carecemos”; dinamiza resentimiento de estatus y zero-sum.
+• Partidos (Semilla/Raíces): 40 menciones (negativas: 33; positivas: 7). Señales de identidad/anti-identidad: “Semilla”, “Raíces”, “Nueva Primavera” (10).
+Lectura: Identidad social y polarización afectiva: etiquetas partidarias concentran prejuicios y expectativas; amplifican sesgo de atribución hostil.
+• Impuestos / Carga fiscal / SAT: 33 (negativas: 30; positivas: 3).
+Lectura: Deslegitimación fiscal: el pago de impuestos se percibe como pérdida sin retorno, lo que erosiona cooperación cívica.
+• Pobreza / Costo de vida (canasta básica, inflación): 32 (negativas: 30; positivas: 1; neutras: 1).
+Lectura: Estrés económico sostiene emociones de frustración e impotencia; facilita atribución global (“todo está peor”).
+• Ministros / Gabinete: 29 (todas negativas: 29).
+Lectura: Extensión del reproche del líder a su equipo: dinámica de contagio de reputación y generalización.
+• Religión / moral (Dios, pecado, moral): 26 (negativas: 25; positivas: 1).
+Lectura: Marco de juicio moral que absolutiza la condena (“bien/mal”), reduciendo apertura a matices técnicos.
+• Empleo / Desempleo / Trabajo: 25 (negativas: 22; positivas: 3).
+Lectura: Deprivación relativa: se compara el “sacrificio” ciudadano con “privilegios” políticos.
+• Educación / Escuelas: 24 (negativas: 22; positivas: 1; neutras: 1).
+Lectura: Otro indicador tangible de fracaso estatal; consolida aprendizaje de indefensión (“nada cambia”).
+• Seguridad / Crimen / Narco: 24 (todas negativas: 24).
+Lectura: Amenaza percibida alta sostiene posturas punitivas y simplificación causal (“falta mano dura”).
+• Salud / Hospitales / Medicinas: 23 (negativas: 22; positivas: 1).
+Lectura: Necesidad básica incumplida → indignación moral + culpabilización.
+• Judicial / MP / CSJ: menciones presentes (bajas) como parte de “Estado fallido”/impunidad.
+Lectura: Baja confianza sistémica: refuerza la idea de impunidad estructural.
+• Gasto público / Prioridades / Derroche: en aumento (vinculado a Presupuesto/Obras).
+Lectura: Demanda de alineación valor-resultado; la falta percibida alimenta cinismo.
+• Obras / Construcción / Licitaciones: presentes como “símbolos de captura” (contratos, favoritismos).
+Lectura: Sospecha ex-ante de clientelismo y rent-seeking.
+• Clientelismo / compra de votos: casos emergentes; se asocian a bolsas/beneficios.
+Lectura: Atribución estratégica al político (intercambio material por apoyo).
+• Empresarios / CACIF / élites: bajas pero significativas; articulan “bloque de poder”.
+Lectura: Marco de élite colusiva (“pacto”), que consolida el relato anti-sistema.
+• Racismo/clasismo, Medios/propaganda, Migración/remesas, Ambiente/agua, Agro/campo, Fuerza pública/militar: frecuencias menores, pero consistentes con una narrativa de desigualdad y desatención territorial.
+• Figuras y lemas específicos (emergentes en bigramas/unigramas):
+“Bernardo Arévalo” (92), “Samuel Pérez” (9), “Andrea Villagrán” (7), “Nueva Primavera” (10), “Golpe de Estado” (8).
+Lectura: Señales de agenda política y gatillos identitarios: nombres propios condensan afecto/aversión.
+
+Synthesis psicosocial (breve)
+1. Polarización afectiva extrema: con 1,957 negativos vs 43 positivos y 42 neutros, la interacción está dominada por emociones de rechazo. Esto refuerza espirales de negatividad (sesgo de negatividad + profecía autocumplida: “todo está mal” → atención selectiva a pruebas de que “todo está mal”).
+2. Moralización y castigo simbólico: la alta frecuencia de corrupción (229), sueldos/privilegios (49) y el señalamiento al Presidente (159) y al Congreso (121) muestra una narrativa de ofensa moral y demanda de sanción (aunque sea retórica), típica de agravios morales en contextos de desigualdad.
+3. Personalización y ampliación del reproche: la culpa se concentra en actores visibles (Presidente/Congreso), pero se expande a Ministros (29) y partidos (40), coherente con atribución global y difusión de responsabilidad (“todos están en lo mismo”).
+4. Pruebas tangibles de desempeño fallido: carreteras (61), salud (23), educación (24), seguridad (24), costo de vida (32). Son experiencias cotidianas que activan heurísticas de disponibilidad: lo que se ve (baches, falta de medicinas) pesa más que explicaciones técnicas del presupuesto.
+5. Erosión de legitimidad fiscal: impuestos/carga fiscal (33) con saldo negativo sugiere quiebre del pacto contributivo: pagar se percibe injusto cuando el Estado se percibe ineficiente o capturado.
+6. Identidad y estigmas partidarios: referencias a Semilla/Raíces (40) y lemas/nombres propios (p.ej., “Nueva Primavera” 10; “Arévalo” 92) indican anclajes identitarios que intensifican sesgos de atribución hostil y pensamiento tribal.
+
+Qué significa para el análisis/estrategia
+• Mensajes que funcionen: Vínculo entre presupuesto → resultados visibles en infraestructura, salud, educación con evidencias concretas y plazos verificables.
+• Riesgos comunicativos: En un entorno con 219/229 menciones de corrupción negativas, cualquier narrativa técnica sin garantías de control (auditoría/contraloría) será leída como “spin”.
+• Claves de confianza: Mecanismos de rendición de cuentas (p. ej., auditorías abiertas, hitos públicos) y micro-evidencias (obras terminadas, medicinas entregadas) son más persuasivas que promesas generales.
+• Gestión de identidad: Reconocer agravios morales y costo de vida antes de pedir “paciencia” reduce reactancia; usar lenguaje de justicia distributiva y prioridades claras puede bajar el tono punitivo.
+
