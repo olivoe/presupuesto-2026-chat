@@ -9,7 +9,13 @@ from typing import List, Dict, Any
 from openai import OpenAI
 from datetime import datetime
 import hashlib
-from memory import MemorySystem
+
+# Import memory system with try/except for robustness
+try:
+    from .memory import MemorySystem
+except ImportError:
+    # Fallback if import fails
+    MemorySystem = None
 
 class handler(BaseHTTPRequestHandler):
     """Vercel serverless handler"""
@@ -45,14 +51,18 @@ class handler(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(response).encode())
                 return
             
-            # Initialize memory system
-            memory = MemorySystem()
+            # Initialize memory system (if available)
+            memory_context = ""
+            if MemorySystem is not None:
+                try:
+                    memory = MemorySystem()
+                    memory_context = memory.get_memory_context(message)
+                except Exception as e:
+                    print(f"Memory system error: {e}")
+                    memory_context = ""
             
             # Retrieve relevant context (using pre-built knowledge base)
             contexts = self._retrieve_context(message, top_k=8)
-            
-            # Get relevant memories
-            memory_context = memory.get_memory_context(message)
             
             # Build prompt
             prompt = self._build_prompt(message, contexts, conversation_history, memory_context)
