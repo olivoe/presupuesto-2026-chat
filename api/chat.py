@@ -7,6 +7,8 @@ import json
 import os
 from typing import List, Dict, Any
 from openai import OpenAI
+from datetime import datetime
+import hashlib
 
 class handler(BaseHTTPRequestHandler):
     """Vercel serverless handler"""
@@ -59,6 +61,14 @@ class handler(BaseHTTPRequestHandler):
                 }
                 for ctx in contexts
             ]
+            
+            # Log conversation
+            self._log_conversation(
+                session_id=session_id,
+                user_message=message,
+                assistant_response=answer,
+                sources=sources
+            )
             
             # Send response
             response = {
@@ -274,4 +284,48 @@ Answer in the same language as the question (English or Spanish).
             import traceback
             traceback.print_exc()
             return f"I apologize, but I encountered an error: {str(e)}"
+    
+    def _log_conversation(
+        self,
+        session_id: str,
+        user_message: str,
+        assistant_response: str,
+        sources: List[Dict[str, str]]
+    ):
+        """
+        Log conversation to a storage system
+        
+        For Vercel, we'll use KV storage or write to a file in /tmp
+        For now, we'll use environment variable to store logs path
+        """
+        try:
+            import tempfile
+            from pathlib import Path
+            
+            # Create log entry
+            log_entry = {
+                'timestamp': datetime.utcnow().isoformat(),
+                'session_id': session_id,
+                'user_message': user_message,
+                'assistant_response': assistant_response,
+                'sources': [s['source'] for s in sources],
+                'message_length': len(user_message),
+                'response_length': len(assistant_response)
+            }
+            
+            # For Vercel, we'll use /tmp directory (ephemeral but works for demo)
+            # In production, use Vercel KV, Supabase, or other persistent storage
+            log_dir = Path('/tmp/chat_logs')
+            log_dir.mkdir(exist_ok=True)
+            
+            # Append to daily log file
+            log_file = log_dir / f"chat_log_{datetime.utcnow().strftime('%Y-%m-%d')}.jsonl"
+            with open(log_file, 'a') as f:
+                f.write(json.dumps(log_entry) + '\n')
+            
+            print(f"✓ Logged conversation: {session_id}")
+            
+        except Exception as e:
+            # Don't fail the request if logging fails
+            print(f"Warning: Failed to log conversation: {e}")
 
