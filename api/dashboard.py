@@ -101,7 +101,7 @@ class handler(BaseHTTPRequestHandler):
         # If no hash set, use default (CHANGE THIS IN PRODUCTION!)
         if not expected_hash:
             # Default password: "presupuesto2026admin"
-            expected_hash = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+            expected_hash = "1d52516193f7d20f7374a2d8add318e6ee65fdf31c85964a9e7dfb2682a51cb2"
         
         # Hash provided password
         password_hash = hashlib.sha256(password.encode()).hexdigest()
