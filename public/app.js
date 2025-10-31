@@ -151,6 +151,7 @@ function addMessage(role, content, sources = null) {
     // Extract chart specifications if present
     let chartSpec = null;
     let textContent = content;
+    let chartId = null;  // Declare chartId in outer scope
     
     if (role === 'assistant') {
         const chartMatch = content.match(/\[CHART_START\]([\s\S]*?)\[CHART_END\]/);
@@ -176,7 +177,7 @@ function addMessage(role, content, sources = null) {
     
     // Add chart container if chart spec exists
     if (chartSpec) {
-        const chartId = `chart-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        chartId = `chart-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;  // Assign to outer variable
         html += `
             <div class="chart-container">
                 <canvas id="${chartId}"></canvas>
