@@ -68,7 +68,14 @@ class handler(BaseHTTPRequestHandler):
             prompt = self._build_prompt(message, contexts, conversation_history, memory_context)
             
             # Generate response with GPT-4
-            answer = self._generate_response(prompt, message)
+            try:
+                answer = self._generate_response(prompt, message)
+            except Exception as gen_error:
+                print(f"ERROR generating response: {str(gen_error)}")
+                import traceback
+                traceback.print_exc()
+                # Return a helpful error message
+                answer = f"I apologize, but I encountered an error while processing your request. Error: {str(gen_error)}"
             
             # Extract sources
             sources = [
@@ -426,9 +433,14 @@ Answer in the same language as the question (English or Spanish).
         """Generate response with GPT-4"""
         
         try:
+            # Check if API key exists
+            api_key = os.environ.get('OPENAI_API_KEY')
+            if not api_key:
+                raise ValueError("OPENAI_API_KEY environment variable is not set")
+            
             # Initialize OpenAI client with minimal config
             client = OpenAI(
-                api_key=os.environ.get('OPENAI_API_KEY'),
+                api_key=api_key,
                 timeout=30.0,
                 max_retries=2
             )
