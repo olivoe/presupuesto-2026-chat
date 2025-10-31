@@ -390,6 +390,8 @@ class CommentRetrieval:
         """
         # Common topic keywords - expanded with more variations
         keyword_map = {
+            'aprobacion': ['aprob', 'aprueba', 'aprobacion', 'aprobación'],
+            'presupuesto': ['presupuesto', 'budget', 'fondos', 'dinero publico', 'dinero público'],
             'infraestructura': ['carretera', 'calle', 'camino', 'infraestructura', 'vial', 'puente', 'hoyo', 'bache'],
             'transporte': ['transporte', 'bus', 'camioneta', 'pasaje', 'movilidad'],
             'canasta': ['canasta', 'canasta basica', 'canasta básica'],
@@ -400,7 +402,7 @@ class CommentRetrieval:
             'seguridad': ['seguridad', 'delincuencia', 'crimen', 'violencia', 'policia', 'policía', 'inseguridad'],
             'empleo': ['empleo', 'trabajo', 'desempleo', 'empleado', 'desocupacion', 'desocupación'],
             'vivienda': ['vivienda', 'casa', 'alquiler', 'renta', 'techo'],
-            'corrupcion': ['corrup', 'robo', 'ladron', 'ladrón', 'roba', 'roban'],
+            'corrupcion': ['corrupc', 'corrupt', 'ladron', 'ladrón', 'roba', 'roban', 'robo'],
             'impuesto': ['impuesto', 'sat', 'tax', 'fiscal'],
             'congreso': ['congreso', 'diputado', 'legisl', 'bancada'],
             'presidente': ['presidente', 'arevalo', 'arévalo', 'bernardo']
