@@ -99,6 +99,18 @@ async function sendMessage() {
         
         const data = await response.json();
         
+        console.log('DEBUG: Received data from API:', data);
+        
+        // Check if there's an error in the response
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
+        // Check if response exists
+        if (!data.response) {
+            throw new Error('No response received from API');
+        }
+        
         // Remove loading indicator
         removeLoadingMessage(loadingId);
         
