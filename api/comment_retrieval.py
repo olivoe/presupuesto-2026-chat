@@ -5,6 +5,7 @@ Comment Retrieval System - Access real comments from the dataset
 import csv
 from typing import List, Dict, Any
 import re
+import os
 
 class CommentRetrieval:
     """
@@ -137,6 +138,11 @@ class CommentRetrieval:
     
     def __init__(self):
         """Initialize comment retrieval system"""
+        
+        # Try to load the full comments CSV (for dynamic search)
+        self.comments_df = None
+        self._load_comments_csv()
+        
         # Map Spanish topic names to internal keys
         self.topic_map = {
             'salud': 'salud',
@@ -172,6 +178,122 @@ class CommentRetrieval:
             'arevalo': 'presidente',
             'arévalo': 'presidente'
         }
+    
+    def _load_comments_csv(self):
+        """Load the full comments data for dynamic searching"""
+        try:
+            import json
+            
+            # Try to load from JSON file (works in Vercel)
+            json_path = os.path.join(os.path.dirname(__file__), 'comments_data.json')
+            
+            if os.path.exists(json_path):
+                with open(json_path, 'r', encoding='utf-8') as f:
+                    comments_list = json.load(f)
+                
+                # Convert to pandas DataFrame
+                import pandas as pd
+                self.comments_df = pd.DataFrame(comments_list)
+                # Rename for compatibility
+                if 'sentiment' in self.comments_df.columns:
+                    self.comments_df['predicted_sentiment_ml_v3'] = self.comments_df['sentiment']
+                if 'text' in self.comments_df.columns:
+                    self.comments_df['comment_text'] = self.comments_df['text']
+                
+                print(f"Loaded {len(self.comments_df)} comments from JSON")
+                return
+            
+            # Fallback: try CSV (for local development)
+            possible_paths = [
+                '/Users/eos/Documents/tik tok extraction/Presupuesto 2026/comment_data/Final Classification/comments_classified_ml_v3_current.csv',
+                'comment_data/Final Classification/comments_classified_ml_v3_current.csv',
+                '../../../comment_data/Final Classification/comments_classified_ml_v3_current.csv'
+            ]
+            
+            for path in possible_paths:
+                if os.path.exists(path):
+                    import pandas as pd
+                    self.comments_df = pd.read_csv(path, encoding='utf-8-sig')
+                    print(f"Loaded {len(self.comments_df)} comments from CSV")
+                    return
+            
+            print("Warning: Could not load comments data, using static examples only")
+        except Exception as e:
+            print(f"Error loading comments data: {e}")
+            import traceback
+            traceback.print_exc()
+            self.comments_df = None
+    
+    def search_comments_dynamic(
+        self,
+        keywords: List[str],
+        sentiment: str = None,
+        max_results: int = 10
+    ) -> Dict[str, Any]:
+        """
+        Dynamically search comments by keywords
+        
+        Args:
+            keywords: List of keywords to search for
+            sentiment: Filter by sentiment (optional)
+            max_results: Maximum examples to return
+            
+        Returns:
+            Dictionary with statistics and examples
+        """
+        if self.comments_df is None:
+            return None
+        
+        try:
+            import pandas as pd
+            
+            # Build regex pattern
+            pattern = '|'.join(keywords)
+            
+            # Search in comment_text
+            mask = self.comments_df['comment_text'].str.lower().str.contains(
+                pattern, na=False, regex=True, case=False
+            )
+            matches = self.comments_df[mask]
+            
+            if len(matches) == 0:
+                return None
+            
+            # Filter by sentiment if specified
+            if sentiment:
+                matches = matches[matches['predicted_sentiment_ml_v3'] == sentiment]
+            
+            # Calculate statistics
+            total = len(matches)
+            sentiment_counts = matches['predicted_sentiment_ml_v3'].value_counts().to_dict()
+            
+            stats = {
+                'total': total,
+                'negative': sentiment_counts.get('negative', 0),
+                'positive': sentiment_counts.get('positive', 0),
+                'neutral': sentiment_counts.get('neutral', 0),
+                'pct_negative': round(sentiment_counts.get('negative', 0) / total * 100, 1) if total > 0 else 0,
+                'pct_positive': round(sentiment_counts.get('positive', 0) / total * 100, 1) if total > 0 else 0,
+                'pct_neutral': round(sentiment_counts.get('neutral', 0) / total * 100, 1) if total > 0 else 0
+            }
+            
+            # Get examples
+            examples = []
+            for _, row in matches.head(max_results).iterrows():
+                examples.append({
+                    'text': row['comment_text'],
+                    'sentiment': row['predicted_sentiment_ml_v3']
+                })
+            
+            return {
+                'stats': stats,
+                'examples': examples,
+                'keywords': keywords
+            }
+            
+        except Exception as e:
+            print(f"Error in dynamic search: {e}")
+            return None
     
     def find_comments(
         self,
@@ -290,10 +412,12 @@ class CommentRetrieval:
         # Build context
         context = "\n=== DATOS REALES DE COMENTARIOS ===\n\n"
         
-        # Add statistics if topic detected
+        # Try static topics first
+        stats_found = False
         if topic_key:
             stats = self.get_topic_stats(topic_key)
             if stats:
+                stats_found = True
                 context += f"**Estadísticas sobre {topic_key.upper()}:**\n"
                 context += f"- Total de comentarios: {stats['total']}\n"
                 context += f"- Negativos: {stats['negative']} ({stats['pct_negative']}%)\n"
@@ -305,7 +429,32 @@ class CommentRetrieval:
                     context += f"**RESPUESTA DIRECTA:** De los {stats['total']} comentarios sobre {topic_key}, "
                     context += f"solo {stats['positive']} ({stats['pct_positive']}%) expresan sentimiento positivo.\n\n"
         
-        # Add comment examples if not just asking for stats
+        # If no static topic found, try dynamic search
+        if not stats_found and self.comments_df is not None:
+            # Extract potential keywords from query
+            keywords = self._extract_keywords_from_query(query_lower)
+            
+            if keywords:
+                dynamic_result = self.search_comments_dynamic(keywords, sentiment=None, max_results=8)
+                
+                if dynamic_result:
+                    stats = dynamic_result['stats']
+                    context += f"**Estadísticas sobre '{', '.join(keywords)}':**\n"
+                    context += f"- Total de comentarios: {stats['total']}\n"
+                    context += f"- Negativos: {stats['negative']} ({stats['pct_negative']}%)\n"
+                    context += f"- Positivos: {stats['positive']} ({stats['pct_positive']}%)\n"
+                    context += f"- Neutrales: {stats['neutral']} ({stats['pct_neutral']}%)\n\n"
+                    
+                    # Add examples
+                    context += "**Ejemplos de comentarios reales:**\n\n"
+                    for i, example in enumerate(dynamic_result['examples'], 1):
+                        context += f"{i}. [{example['sentiment']}] \"{example['text']}\"\n"
+                    context += "\n"
+                    
+                    context += "Fuente: Búsqueda dinámica en 2,042 comentarios extraídos de TikTok sobre Presupuesto 2026.\n"
+                    return context
+        
+        # Fallback to static examples if no dynamic search
         if not asking_for_stats or sentiment:
             # Map internal topic to comment key
             topic_for_comments = None
@@ -335,4 +484,38 @@ class CommentRetrieval:
         context += "Fuente: Análisis de 2,042 comentarios extraídos de TikTok sobre Presupuesto 2026.\n"
         
         return context
+    
+    def _extract_keywords_from_query(self, query_lower: str) -> List[str]:
+        """
+        Extract relevant keywords from user query for dynamic search
+        
+        Args:
+            query_lower: Lowercased user query
+            
+        Returns:
+            List of keywords to search for
+        """
+        # Common topic keywords
+        keyword_map = {
+            'canasta': ['canasta', 'canasta basica', 'canasta básica'],
+            'alimento': ['alimento', 'comida', 'alimentacion', 'alimentación'],
+            'precio': ['precio', 'caro', 'costo', 'inflacion', 'inflación'],
+            'educacion': ['educacion', 'educación', 'escuela', 'maestro', 'profesor'],
+            'seguridad': ['seguridad', 'delincuencia', 'crimen', 'violencia', 'policia', 'policía'],
+            'empleo': ['empleo', 'trabajo', 'desempleo', 'empleado'],
+            'transporte': ['transporte', 'bus', 'camioneta', 'pasaje'],
+            'vivienda': ['vivienda', 'casa', 'alquiler', 'renta']
+        }
+        
+        keywords = []
+        for key, terms in keyword_map.items():
+            for term in terms:
+                if term in query_lower:
+                    keywords.extend(terms)
+                    break
+        
+        # Remove duplicates
+        keywords = list(set(keywords))
+        
+        return keywords if keywords else []
 
