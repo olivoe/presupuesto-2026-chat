@@ -382,13 +382,16 @@ Guidelines:
 1. Answer based on the provided context
 2. **CRITICAL: When topic statistics are provided (e.g., "32 comentarios sobre salud, 4 positivos, 27 negativos"), USE THESE EXACT NUMBERS in your answer**
 3. For quantitative questions ("cuánta gente", "how many"), provide specific counts and percentages from the statistics
-4. Be specific with numbers and data when available
-5. If unsure, say so clearly
-6. Be conversational but professional
-7. The analysis shows EXTREME negativity (1,957 negative vs 43 positive vs 42 neutral)
-8. Highlight psychosocial insights when relevant
-9. Use relevant past Q&As from memory to provide consistent, accurate answers
-10. Reference previous explanations when appropriate
+4. **CRITICAL: When asked for comment examples ("muéstrame comentarios", "dame ejemplos"), you MUST use the real examples provided in the context**
+5. **FORBIDDEN: Never use "ejemplos generales" or generic placeholder comments. ONLY use real comments from the analysis**
+6. **REQUIRED: When real comment examples are provided in the context (marked with sentiment like [negative], [positive]), copy them EXACTLY as provided**
+7. Be specific with numbers and data when available
+8. If no real examples are available for a specific query, say "No encontré ejemplos específicos sobre ese tema" instead of inventing generic ones
+9. Be conversational but professional
+10. The analysis shows EXTREME negativity (1,957 negative vs 43 positive vs 42 neutral)
+11. Highlight psychosocial insights when relevant
+12. Use relevant past Q&As from memory to provide consistent, accurate answers
+13. Reference previous explanations when appropriate
 
 CHART GENERATION CAPABILITY:
 When the user asks for a chart, graph, visualization, or visual representation, you should:

@@ -67,11 +67,11 @@ class CommentRetrieval:
             "Se roban todo y nadie hace nada"
         ],
         'negative_infrastructure': [
-            "Las carreteras están destruidas y ellos aumentándose el sueldo",
-            "Arreglen las calles primero antes de aumentarse sueldos",
-            "Carreteras en mal estado y ellos con sus lujos",
+            "Y las Carreteras para cuando señor presidente?",
             "que chiste, más hospitales dice pues yo sigo viendo los mismos y sin personal, si medicina, sin camillas, carreteras en pésimo estado",
-            "Las calles llenas de hoyos y ellos con sus millones"
+            "Y LAS CARRETERAS ??? DESTRUIDAS, PUENTES, EL PUERTO QUETZAL UNA SOLA GRUA DE 5 QUE SON",
+            "no aprueben nada no ay seguridad no ay carreteras no ay justicia este tipo es titere",
+            "descarado ladron, ni un km de carretera, más inseguridad"
         ],
         'negative_health': [
             "Pero de seguro es como dijo el sobre la delincuencia solo es percepción porque no se ven las escuelas y los puestos de salud el pais esta abandonado.",
@@ -412,25 +412,11 @@ class CommentRetrieval:
         # Build context
         context = "\n=== DATOS REALES DE COMENTARIOS ===\n\n"
         
-        # Try static topics first
+        # Try dynamic search FIRST if comments data is available
         stats_found = False
-        if topic_key:
-            stats = self.get_topic_stats(topic_key)
-            if stats:
-                stats_found = True
-                context += f"**Estadísticas sobre {topic_key.upper()}:**\n"
-                context += f"- Total de comentarios: {stats['total']}\n"
-                context += f"- Negativos: {stats['negative']} ({stats['pct_negative']}%)\n"
-                context += f"- Positivos: {stats['positive']} ({stats['pct_positive']}%)\n"
-                context += f"- Neutrales: {stats['neutral']} ({stats['pct_neutral']}%)\n\n"
-                
-                # If asking about positive sentiment specifically
-                if sentiment == 'positive' or any(word in query_lower for word in ['mejor', 'mejora', 'mejorar']):
-                    context += f"**RESPUESTA DIRECTA:** De los {stats['total']} comentarios sobre {topic_key}, "
-                    context += f"solo {stats['positive']} ({stats['pct_positive']}%) expresan sentimiento positivo.\n\n"
+        dynamic_result = None
         
-        # If no static topic found, try dynamic search
-        if not stats_found and self.comments_df is not None:
+        if self.comments_df is not None:
             # Extract potential keywords from query
             keywords = self._extract_keywords_from_query(query_lower)
             
@@ -438,8 +424,13 @@ class CommentRetrieval:
                 dynamic_result = self.search_comments_dynamic(keywords, sentiment=None, max_results=8)
                 
                 if dynamic_result:
+                    stats_found = True
                     stats = dynamic_result['stats']
-                    context += f"**Estadísticas sobre '{', '.join(keywords)}':**\n"
+                    
+                    # Determine topic label for display
+                    topic_label = topic_key.upper() if topic_key else ', '.join(keywords[:3])
+                    
+                    context += f"**Estadísticas sobre {topic_label}:**\n"
                     context += f"- Total de comentarios: {stats['total']}\n"
                     context += f"- Negativos: {stats['negative']} ({stats['pct_negative']}%)\n"
                     context += f"- Positivos: {stats['positive']} ({stats['pct_positive']}%)\n"
@@ -453,6 +444,22 @@ class CommentRetrieval:
                     
                     context += "Fuente: Búsqueda dinámica en 2,042 comentarios extraídos de TikTok sobre Presupuesto 2026.\n"
                     return context
+        
+        # Fallback to static topics if dynamic search didn't work
+        if not stats_found and topic_key:
+            stats = self.get_topic_stats(topic_key)
+            if stats:
+                stats_found = True
+                context += f"**Estadísticas sobre {topic_key.upper()}:**\n"
+                context += f"- Total de comentarios: {stats['total']}\n"
+                context += f"- Negativos: {stats['negative']} ({stats['pct_negative']}%)\n"
+                context += f"- Positivos: {stats['positive']} ({stats['pct_positive']}%)\n"
+                context += f"- Neutrales: {stats['neutral']} ({stats['pct_neutral']}%)\n\n"
+                
+                # If asking about positive sentiment specifically
+                if sentiment == 'positive' or any(word in query_lower for word in ['mejor', 'mejora', 'mejorar']):
+                    context += f"**RESPUESTA DIRECTA:** De los {stats['total']} comentarios sobre {topic_key}, "
+                    context += f"solo {stats['positive']} ({stats['pct_positive']}%) expresan sentimiento positivo.\n\n"
         
         # Fallback to static examples if no dynamic search
         if not asking_for_stats or sentiment:
@@ -495,16 +502,22 @@ class CommentRetrieval:
         Returns:
             List of keywords to search for
         """
-        # Common topic keywords
+        # Common topic keywords - expanded with more variations
         keyword_map = {
+            'infraestructura': ['carretera', 'calle', 'camino', 'infraestructura', 'vial', 'puente', 'hoyo', 'bache'],
+            'transporte': ['transporte', 'bus', 'camioneta', 'pasaje', 'movilidad'],
             'canasta': ['canasta', 'canasta basica', 'canasta básica'],
             'alimento': ['alimento', 'comida', 'alimentacion', 'alimentación'],
-            'precio': ['precio', 'caro', 'costo', 'inflacion', 'inflación'],
-            'educacion': ['educacion', 'educación', 'escuela', 'maestro', 'profesor'],
-            'seguridad': ['seguridad', 'delincuencia', 'crimen', 'violencia', 'policia', 'policía'],
-            'empleo': ['empleo', 'trabajo', 'desempleo', 'empleado'],
-            'transporte': ['transporte', 'bus', 'camioneta', 'pasaje'],
-            'vivienda': ['vivienda', 'casa', 'alquiler', 'renta']
+            'precio': ['precio', 'caro', 'costo', 'inflacion', 'inflación', 'costo de vida'],
+            'salud': ['salud', 'hospital', 'medicina', 'medico', 'doctor', 'enfermera', 'clinica', 'igss'],
+            'educacion': ['educacion', 'educación', 'escuela', 'maestro', 'profesor', 'estudiante', 'universidad'],
+            'seguridad': ['seguridad', 'delincuencia', 'crimen', 'violencia', 'policia', 'policía', 'inseguridad'],
+            'empleo': ['empleo', 'trabajo', 'desempleo', 'empleado', 'desocupacion', 'desocupación'],
+            'vivienda': ['vivienda', 'casa', 'alquiler', 'renta', 'techo'],
+            'corrupcion': ['corrup', 'robo', 'ladron', 'ladrón', 'roba', 'roban'],
+            'impuesto': ['impuesto', 'sat', 'tax', 'fiscal'],
+            'congreso': ['congreso', 'diputado', 'legisl', 'bancada'],
+            'presidente': ['presidente', 'arevalo', 'arévalo', 'bernardo']
         }
         
         keywords = []
