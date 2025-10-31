@@ -11,6 +11,50 @@ class CommentRetrieval:
     Retrieves real comments from the dataset based on filters
     """
     
+    # Topic-Sentiment Statistics (from 2,042 analyzed comments)
+    TOPIC_STATS = {
+        'salud': {
+            'total': 32,
+            'negative': 27, 'positive': 4, 'neutral': 1,
+            'pct_negative': 84.4, 'pct_positive': 12.5, 'pct_neutral': 3.1
+        },
+        'educacion': {
+            'total': 20,
+            'negative': 18, 'positive': 1, 'neutral': 1,
+            'pct_negative': 90.0, 'pct_positive': 5.0, 'pct_neutral': 5.0
+        },
+        'infraestructura': {
+            'total': 67,
+            'negative': 66, 'positive': 1, 'neutral': 0,
+            'pct_negative': 98.5, 'pct_positive': 1.5, 'pct_neutral': 0.0
+        },
+        'corrupcion': {
+            'total': 275,
+            'negative': 265, 'positive': 3, 'neutral': 7,
+            'pct_negative': 96.4, 'pct_positive': 1.1, 'pct_neutral': 2.5
+        },
+        'impuestos': {
+            'total': 27,
+            'negative': 26, 'positive': 1, 'neutral': 0,
+            'pct_negative': 96.3, 'pct_positive': 3.7, 'pct_neutral': 0.0
+        },
+        'pobreza': {
+            'total': 28,
+            'negative': 26, 'positive': 1, 'neutral': 1,
+            'pct_negative': 92.9, 'pct_positive': 3.6, 'pct_neutral': 3.6
+        },
+        'congreso': {
+            'total': 106,
+            'negative': 102, 'positive': 2, 'neutral': 2,
+            'pct_negative': 96.2, 'pct_positive': 1.9, 'pct_neutral': 1.9
+        },
+        'presidente': {
+            'total': 169,
+            'negative': 163, 'positive': 5, 'neutral': 1,
+            'pct_negative': 96.4, 'pct_positive': 3.0, 'pct_neutral': 0.6
+        }
+    }
+    
     # Embedded sample of comments (top examples by topic/sentiment)
     # In production, this would load from a file or database
     SAMPLE_COMMENTS = {
@@ -25,8 +69,22 @@ class CommentRetrieval:
             "Las carreteras están destruidas y ellos aumentándose el sueldo",
             "Arreglen las calles primero antes de aumentarse sueldos",
             "Carreteras en mal estado y ellos con sus lujos",
-            "Infraestructura vial pésima y siguen robando",
+            "que chiste, más hospitales dice pues yo sigo viendo los mismos y sin personal, si medicina, sin camillas, carreteras en pésimo estado",
             "Las calles llenas de hoyos y ellos con sus millones"
+        ],
+        'negative_health': [
+            "Pero de seguro es como dijo el sobre la delincuencia solo es percepción porque no se ven las escuelas y los puestos de salud el pais esta abandonado.",
+            "de que medicina si en los capitales no hay yo me quedé sin medicamento 2 meses",
+            "más hospitales dice pues yo sigo viendo los mismos y sin personal, si medicina, sin camillas",
+            "todos los alimentos que están repartiendo son donaciones que china dio ya casi hace dos años y lo tienen en bodegas y no lo entregan",
+            "las medicinas en hospitales no hay medicinas todo se lo están robando estos ineptos descarados nefastos corruptos ladrones",
+            "mejor invertir en aulas en educación o en centros de salud que eso es de beneficios a los guatemaltecos"
+        ],
+        'positive_health': [
+            "Pública es más escuelas seguramente también invertirán en aumento a los cuidados y pensionados del 6 meses del seguro social",
+            "Seguramente más y mejor jubilados y pensionados del igss, aumento por el fabor",
+            "usted es un gran hombre lastima que se roban la medicina se enriquese un grupo de corruptos lo felicito señor presidente",
+            "me gusta saludos desde Calapte San Marcos Rafael Ramirez te saluda"
         ],
         'negative_president': [
             "Arévalo es un fraude, prometió cambio y nada",
@@ -79,7 +137,41 @@ class CommentRetrieval:
     
     def __init__(self):
         """Initialize comment retrieval system"""
-        pass
+        # Map Spanish topic names to internal keys
+        self.topic_map = {
+            'salud': 'salud',
+            'health': 'salud',
+            'hospitales': 'salud',
+            'hospital': 'salud',
+            'medicina': 'salud',
+            'medico': 'salud',
+            'igss': 'salud',
+            'educacion': 'educacion',
+            'education': 'educacion',
+            'escuela': 'educacion',
+            'maestro': 'educacion',
+            'infraestructura': 'infraestructura',
+            'infrastructure': 'infraestructura',
+            'carretera': 'infraestructura',
+            'calle': 'infraestructura',
+            'corrupcion': 'corrupcion',
+            'corruption': 'corrupcion',
+            'robo': 'corrupcion',
+            'impuesto': 'impuestos',
+            'impuestos': 'impuestos',
+            'tax': 'impuestos',
+            'sat': 'impuestos',
+            'pobreza': 'pobreza',
+            'poverty': 'pobreza',
+            'hambre': 'pobreza',
+            'congreso': 'congreso',
+            'congress': 'congreso',
+            'diputado': 'congreso',
+            'presidente': 'presidente',
+            'president': 'presidente',
+            'arevalo': 'presidente',
+            'arévalo': 'presidente'
+        }
     
     def find_comments(
         self,
@@ -129,67 +221,118 @@ class CommentRetrieval:
         
         return results[:max_results]
     
-    def get_comment_examples_context(self, query: str) -> str:
+    def get_topic_stats(self, topic_key: str) -> Dict[str, Any]:
         """
-        Generate context with real comment examples based on query
+        Get statistics for a specific topic
+        
+        Args:
+            topic_key: Topic identifier (e.g., 'salud', 'educacion')
+            
+        Returns:
+            Dictionary with statistics or None if not found
+        """
+        # Normalize topic key
+        topic_key = topic_key.lower()
+        if topic_key in self.topic_map:
+            topic_key = self.topic_map[topic_key]
+        
+        return self.TOPIC_STATS.get(topic_key)
+    
+    def detect_topic_from_query(self, query: str) -> str:
+        """
+        Detect topic from user query
         
         Args:
             query: User's question
             
         Returns:
-            Formatted string with comment examples
+            Topic key or None
         """
         query_lower = query.lower()
         
+        # Check each keyword in topic_map
+        for keyword, topic in self.topic_map.items():
+            if keyword in query_lower:
+                return topic
+        
+        return None
+    
+    def get_comment_examples_context(self, query: str) -> str:
+        """
+        Generate context with real comment examples and statistics based on query
+        
+        Args:
+            query: User's question
+            
+        Returns:
+            Formatted string with statistics and comment examples
+        """
+        query_lower = query.lower()
+        
+        # Detect if user is asking for statistics/counts
+        asking_for_stats = any(word in query_lower for word in [
+            'cuanta', 'cuantos', 'cuantas', 'how many', 'porcentaje', 'percentage',
+            'numero', 'number', 'cantidad', 'amount', 'estadistica', 'statistic'
+        ])
+        
         # Detect sentiment
         sentiment = None
-        if any(word in query_lower for word in ['negativo', 'negative', 'crítico', 'malo']):
+        if any(word in query_lower for word in ['negativo', 'negative', 'crítico', 'malo', 'contra']):
             sentiment = 'negative'
-        elif any(word in query_lower for word in ['positivo', 'positive', 'bueno', 'favor']):
+        elif any(word in query_lower for word in ['positivo', 'positive', 'bueno', 'favor', 'apoyo']):
             sentiment = 'positive'
         elif any(word in query_lower for word in ['neutral', 'neutro']):
             sentiment = 'neutral'
         
-        # Detect topic
-        topic = None
-        if any(word in query_lower for word in ['corrup', 'robo', 'ladr']):
-            topic = 'corruption'
-        elif any(word in query_lower for word in ['carretera', 'calle', 'infraestructura', 'vial']):
-            topic = 'infrastructure'
-        elif any(word in query_lower for word in ['presidente', 'arévalo', 'arevalo']):
-            topic = 'president'
-        elif any(word in query_lower for word in ['congreso', 'diputado', 'legisl']):
-            topic = 'congress'
-        elif any(word in query_lower for word in ['presupuesto', 'budget']):
-            topic = 'budget'
-        elif any(word in query_lower for word in ['impuesto', 'sat', 'tax']):
-            topic = 'taxes'
-        elif any(word in query_lower for word in ['pobreza', 'hambre', 'costo']):
-            topic = 'poverty'
+        # Detect topic using the new method
+        topic_key = self.detect_topic_from_query(query)
         
-        # Get comments
-        comments = self.find_comments(sentiment=sentiment, topic=topic, max_results=5)
+        # Build context
+        context = "\n=== DATOS REALES DE COMENTARIOS ===\n\n"
         
-        if not comments:
-            return ""
+        # Add statistics if topic detected
+        if topic_key:
+            stats = self.get_topic_stats(topic_key)
+            if stats:
+                context += f"**Estadísticas sobre {topic_key.upper()}:**\n"
+                context += f"- Total de comentarios: {stats['total']}\n"
+                context += f"- Negativos: {stats['negative']} ({stats['pct_negative']}%)\n"
+                context += f"- Positivos: {stats['positive']} ({stats['pct_positive']}%)\n"
+                context += f"- Neutrales: {stats['neutral']} ({stats['pct_neutral']}%)\n\n"
+                
+                # If asking about positive sentiment specifically
+                if sentiment == 'positive' or any(word in query_lower for word in ['mejor', 'mejora', 'mejorar']):
+                    context += f"**RESPUESTA DIRECTA:** De los {stats['total']} comentarios sobre {topic_key}, "
+                    context += f"solo {stats['positive']} ({stats['pct_positive']}%) expresan sentimiento positivo.\n\n"
         
-        # Format context
-        context = "\n=== EJEMPLOS REALES DE COMENTARIOS ===\n\n"
+        # Add comment examples if not just asking for stats
+        if not asking_for_stats or sentiment:
+            # Map internal topic to comment key
+            topic_for_comments = None
+            if topic_key == 'salud':
+                topic_for_comments = 'health'
+            elif topic_key == 'infraestructura':
+                topic_for_comments = 'infrastructure'
+            elif topic_key == 'corrupcion':
+                topic_for_comments = 'corruption'
+            elif topic_key == 'congreso':
+                topic_for_comments = 'congress'
+            elif topic_key == 'presidente':
+                topic_for_comments = 'president'
+            elif topic_key == 'impuestos':
+                topic_for_comments = 'taxes'
+            elif topic_key == 'pobreza':
+                topic_for_comments = 'poverty'
+            
+            comments = self.find_comments(sentiment=sentiment, topic=topic_for_comments, max_results=5)
+            
+            if comments:
+                context += "**Ejemplos de comentarios reales:**\n\n"
+                for i, comment in enumerate(comments, 1):
+                    context += f"{i}. \"{comment}\"\n"
+                context += "\n"
         
-        if sentiment:
-            context += f"Comentarios {sentiment}s"
-        else:
-            context += "Comentarios"
-        
-        if topic:
-            context += f" sobre {topic}"
-        
-        context += ":\n\n"
-        
-        for i, comment in enumerate(comments, 1):
-            context += f"{i}. \"{comment}\"\n"
-        
-        context += "\nEstos son ejemplos reales extraídos de los 2,042 comentarios analizados.\n"
+        context += "Fuente: Análisis de 2,042 comentarios extraídos de TikTok sobre Presupuesto 2026.\n"
         
         return context
 
