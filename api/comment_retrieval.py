@@ -56,8 +56,8 @@ class CommentRetrieval:
         }
     }
     
-    # Embedded sample of comments (top examples by topic/sentiment)
-    # In production, this would load from a file or database
+    # Static sample comments - ONLY used as emergency fallback if JSON data fails to load
+    # These should NEVER be returned when comments_data.json is available
     SAMPLE_COMMENTS = {
         'negative_corruption': [
             "Puro robo, todo se lo roban y nosotros pagando impuestos para nada",
@@ -461,8 +461,28 @@ class CommentRetrieval:
                     context += f"**RESPUESTA DIRECTA:** De los {stats['total']} comentarios sobre {topic_key}, "
                     context += f"solo {stats['positive']} ({stats['pct_positive']}%) expresan sentimiento positivo.\n\n"
         
-        # Fallback to static examples if no dynamic search
-        if not asking_for_stats or sentiment:
+        # If no keywords were found but user is asking for examples, return random samples
+        if not stats_found and self.comments_df is not None:
+            if any(word in query_lower for word in ['ejemplo', 'muestra', 'comentario', 'comment', 'show']):
+                # Get random sample of comments (filtered by sentiment if specified)
+                import pandas as pd
+                
+                sample_df = self.comments_df
+                if sentiment:
+                    sample_df = sample_df[sample_df['predicted_sentiment_ml_v3'] == sentiment]
+                
+                # Get random sample
+                sample_comments = sample_df.sample(n=min(8, len(sample_df)))
+                
+                context += "**Ejemplos aleatorios de comentarios reales:**\n\n"
+                for i, row in enumerate(sample_comments.itertuples(), 1):
+                    context += f"{i}. [{row.predicted_sentiment_ml_v3}] \"{row.comment_text}\"\n"
+                context += "\n"
+                context += "Fuente: Muestra aleatoria de 2,042 comentarios extraídos de TikTok sobre Presupuesto 2026.\n"
+                return context
+        
+        # Final fallback to static examples (ONLY if no comments data available)
+        if not stats_found:
             # Map internal topic to comment key
             topic_for_comments = None
             if topic_key == 'salud':
