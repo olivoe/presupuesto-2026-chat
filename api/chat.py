@@ -9,6 +9,7 @@ from typing import List, Dict, Any
 from openai import OpenAI
 from datetime import datetime
 import hashlib
+from memory import MemorySystem
 
 class handler(BaseHTTPRequestHandler):
     """Vercel serverless handler"""
@@ -44,11 +45,17 @@ class handler(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(response).encode())
                 return
             
+            # Initialize memory system
+            memory = MemorySystem()
+            
             # Retrieve relevant context (using pre-built knowledge base)
             contexts = self._retrieve_context(message, top_k=8)
             
+            # Get relevant memories
+            memory_context = memory.get_memory_context(message)
+            
             # Build prompt
-            prompt = self._build_prompt(message, contexts, conversation_history)
+            prompt = self._build_prompt(message, contexts, conversation_history, memory_context)
             
             # Generate response with GPT-4
             answer = self._generate_response(prompt, message)
@@ -304,9 +311,10 @@ class handler(BaseHTTPRequestHandler):
         self,
         query: str,
         contexts: List[Dict[str, Any]],
-        conversation_history: List[Dict[str, str]]
+        conversation_history: List[Dict[str, str]],
+        memory_context: str = ""
     ) -> str:
-        """Build prompt for LLM"""
+        """Build prompt for LLM with memory context"""
         
         system_prompt = """You are an expert AI assistant specialized in the Presupuesto 2026 TikTok analysis project.
 
@@ -325,6 +333,8 @@ Guidelines:
 4. Be conversational but professional
 5. The analysis shows EXTREME negativity (1,957 negative vs 43 positive vs 42 neutral)
 6. Highlight psychosocial insights when relevant
+7. Use relevant past Q&As from memory to provide consistent, accurate answers
+8. Reference previous explanations when appropriate
 
 CHART GENERATION CAPABILITY:
 When the user asks for a chart, graph, visualization, or visual representation, you should:
@@ -363,6 +373,11 @@ Answer in the same language as the question (English or Spanish).
         for i, ctx in enumerate(contexts, 1):
             context_section += f"[Context {i}]:\n{ctx['text']}\n\n"
         
+        # Add memory context if available
+        memory_section = ""
+        if memory_context:
+            memory_section = memory_context
+        
         # Build conversation history
         history_section = ""
         if conversation_history:
@@ -372,7 +387,7 @@ Answer in the same language as the question (English or Spanish).
                 content = msg.get('content', '')
                 history_section += f"{role.upper()}: {content}\n\n"
         
-        prompt = system_prompt + context_section + history_section
+        prompt = system_prompt + context_section + memory_section + history_section
         
         return prompt
     
