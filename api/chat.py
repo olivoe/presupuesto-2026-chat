@@ -17,6 +17,12 @@ except ImportError:
     # Fallback if import fails
     MemorySystem = None
 
+# Import comment retrieval system
+try:
+    from .comment_retrieval import CommentRetrieval
+except ImportError:
+    CommentRetrieval = None
+
 class handler(BaseHTTPRequestHandler):
     """Vercel serverless handler"""
     
@@ -61,11 +67,21 @@ class handler(BaseHTTPRequestHandler):
                     print(f"Memory system error: {e}")
                     memory_context = ""
             
+            # Initialize comment retrieval system (if available)
+            comment_context = ""
+            if CommentRetrieval is not None:
+                try:
+                    comment_retrieval = CommentRetrieval()
+                    comment_context = comment_retrieval.get_comment_examples_context(message)
+                except Exception as e:
+                    print(f"Comment retrieval error: {e}")
+                    comment_context = ""
+            
             # Retrieve relevant context (using pre-built knowledge base)
             contexts = self._retrieve_context(message, top_k=8)
             
             # Build prompt
-            prompt = self._build_prompt(message, contexts, conversation_history, memory_context)
+            prompt = self._build_prompt(message, contexts, conversation_history, memory_context, comment_context)
             
             # Generate response with GPT-4
             try:
@@ -346,9 +362,10 @@ class handler(BaseHTTPRequestHandler):
         query: str,
         contexts: List[Dict[str, Any]],
         conversation_history: List[Dict[str, str]],
-        memory_context: str = ""
+        memory_context: str = "",
+        comment_context: str = ""
     ) -> str:
-        """Build prompt for LLM with memory context"""
+        """Build prompt for LLM with memory and comment context"""
         
         system_prompt = """You are an expert AI assistant specialized in the Presupuesto 2026 TikTok analysis project.
 
@@ -428,6 +445,11 @@ Answer in the same language as the question (English or Spanish).
         if memory_context:
             memory_section = memory_context
         
+        # Add comment examples if available
+        comment_section = ""
+        if comment_context:
+            comment_section = comment_context
+        
         # Build conversation history
         history_section = ""
         if conversation_history:
@@ -437,7 +459,7 @@ Answer in the same language as the question (English or Spanish).
                 content = msg.get('content', '')
                 history_section += f"{role.upper()}: {content}\n\n"
         
-        prompt = system_prompt + context_section + memory_section + history_section
+        prompt = system_prompt + context_section + memory_section + comment_section + history_section
         
         return prompt
     
