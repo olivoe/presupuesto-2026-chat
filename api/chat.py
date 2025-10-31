@@ -69,7 +69,9 @@ class handler(BaseHTTPRequestHandler):
             
             # Generate response with GPT-4
             try:
+                print(f"DEBUG: About to generate response for message: {message[:50]}...")
                 answer = self._generate_response(prompt, message)
+                print(f"DEBUG: Successfully generated response, length: {len(answer)}")
             except Exception as gen_error:
                 print(f"ERROR generating response: {str(gen_error)}")
                 import traceback
@@ -77,6 +79,7 @@ class handler(BaseHTTPRequestHandler):
                 # Return a helpful error message
                 answer = f"I apologize, but I encountered an error while processing your request. Error: {str(gen_error)}"
             
+            print(f"DEBUG: About to extract sources from {len(contexts)} contexts")
             # Extract sources
             sources = [
                 {
@@ -87,21 +90,30 @@ class handler(BaseHTTPRequestHandler):
             ]
             
             # Log conversation
-            self._log_conversation(
-                session_id=session_id,
-                user_message=message,
-                assistant_response=answer,
-                sources=sources
-            )
+            print(f"DEBUG: About to log conversation")
+            try:
+                self._log_conversation(
+                    session_id=session_id,
+                    user_message=message,
+                    assistant_response=answer,
+                    sources=sources
+                )
+                print(f"DEBUG: Conversation logged successfully")
+            except Exception as log_error:
+                print(f"WARNING: Failed to log conversation: {log_error}")
+                # Don't fail the request if logging fails
             
             # Send response
+            print(f"DEBUG: About to send response")
             response = {
                 'response': answer,
                 'sources': sources,
                 'session_id': session_id
             }
             
+            print(f"DEBUG: Sending JSON response with {len(answer)} char answer")
             self.wfile.write(json.dumps(response).encode())
+            print(f"DEBUG: Response sent successfully")
             
         except Exception as e:
             # Log the full error for debugging
