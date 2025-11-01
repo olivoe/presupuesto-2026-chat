@@ -19,7 +19,7 @@ class FullDatasetLoader:
         self._load_all_data()
     
     def _load_all_data(self):
-        """Load all comments and post metadata"""
+        """Load all comments and post metadata with Interest Index"""
         try:
             # Load comments
             comments_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'comments', 'comments_all.json')
@@ -30,18 +30,49 @@ class FullDatasetLoader:
             else:
                 print(f"⚠ Warning: Comments file not found at {comments_path}")
             
-            # Load post metadata (Interest Index, etc.)
+            # Load Interest Index data
+            interest_index_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'posts', 'interest_index.json')
+            interest_index_data = []
+            if os.path.exists(interest_index_path):
+                with open(interest_index_path, 'r', encoding='utf-8') as f:
+                    interest_index_data = json.load(f)
+                print(f"✓ Loaded {len(interest_index_data)} Interest Index records")
+            else:
+                print(f"⚠ Warning: Interest Index file not found")
+            
+            # Create lookup dict for Interest Index by video_id
+            interest_index_map = {str(item['video_id']): item for item in interest_index_data}
+            
+            # Load post metadata and merge with Interest Index
             posts_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'posts', 'posts_metadata.json')
             if os.path.exists(posts_path):
                 with open(posts_path, 'r', encoding='utf-8') as f:
-                    self.posts = json.load(f)
-                print(f"✓ Loaded {len(self.posts)} posts metadata")
+                    posts_metadata = json.load(f)
+                
+                # Merge Interest Index data into posts
+                self.posts = []
+                for post in posts_metadata:
+                    video_id = str(post.get('video_id', ''))
+                    if video_id in interest_index_map:
+                        # Merge Interest Index fields
+                        ii_data = interest_index_map[video_id]
+                        post['interest_index'] = ii_data.get('interest_index', 0)
+                        post['rank'] = ii_data.get('rank', 999)
+                        post['views'] = ii_data.get('views', post.get('views', 0))
+                        post['stance'] = ii_data.get('stance', post.get('post_stance', 'N/A'))
+                    self.posts.append(post)
+                
+                # Sort by rank
+                self.posts.sort(key=lambda x: x.get('rank', 999))
+                print(f"✓ Loaded {len(self.posts)} posts with Interest Index")
             else:
                 print(f"⚠ Warning: Posts metadata file not found")
                 self.posts = []
                 
         except Exception as e:
             print(f"Error loading data: {e}")
+            import traceback
+            traceback.print_exc()
             self.comments = []
             self.posts = []
     
@@ -122,8 +153,8 @@ class FullDatasetLoader:
     def create_compact_context(self) -> str:
         """
         Create ULTRA-COMPACT version to save tokens (Option A1)
-        RATE LIMIT FIX: Use 60% of dataset (~1,200 comments) to stay under 30K TPM
-        Target: ~26,000 tokens
+        Includes comments + post metadata with Interest Index
+        Target: ~46,000 tokens (44K comments + 2K posts)
         """
         if not self.comments:
             return "No comments data available."
@@ -136,6 +167,29 @@ class FullDatasetLoader:
         context_parts.append("FMT:[S]txt|postID|st|L")
         context_parts.append("S:N/P/U st:A/D L:likes(if>0)")
         context_parts.append("")
+        
+        # Add post metadata with Interest Index FIRST (before comments)
+        if self.posts:
+            context_parts.append("="*40)
+            context_parts.append("POSTS WITH INTEREST INDEX (24 posts)")
+            context_parts.append("="*40)
+            context_parts.append("FMT:Rank|Username|PostID|Views|IntIdx|Stance")
+            context_parts.append("")
+            
+            for post in self.posts:
+                rank = post.get('rank', 'N/A')
+                username = post.get('username', 'N/A')
+                video_id = post.get('video_id', 'N/A')
+                views = post.get('views', 0)
+                interest_index = post.get('interest_index', 0)
+                stance = 'A' if 'approv' in str(post.get('stance', '')).lower() else 'D'
+                
+                context_parts.append(f"{rank}|{username}|{video_id}|{views:,}v|{interest_index:.2f}|{stance}")
+            
+            context_parts.append("")
+            context_parts.append("IntIdx=Interest Index (higher=more interest)")
+            context_parts.append("="*40)
+            context_parts.append("")
         
         # Extract post ID from URL for compression
         def get_post_id(url):
