@@ -167,7 +167,7 @@ When users request charts, graphs, or visualizations, you MUST provide:
 1. Brief textual summary
 2. Chart specification in JSON format wrapped in markers: [CHART_START] ... [CHART_END]
 
-**CRITICAL: Use ONLY this JSON format (no text-based ASCII charts!):**
+**CRITICAL: Use ONLY this EXACT JSON format (no text-based ASCII charts!):**
 
 [CHART_START]
 {
@@ -178,11 +178,18 @@ When users request charts, graphs, or visualizations, you MUST provide:
         "datasets": [{
             "label": "Dataset Name",
             "data": [value1, value2, value3],
-            "backgroundColor": ["#ef4444", "#10b981", "#94a3b8"]
+            "backgroundColor": "#667eea"
         }]
     }
 }
 [CHART_END]
+
+**IMPORTANT RULES:**
+- Do NOT include "options" field - it will break rendering
+- Do NOT include "indexAxis" - the type "horizontalBar" handles this
+- Do NOT include callback functions - they won't work in JSON
+- Keep it simple: type, title, data only
+- backgroundColor can be a single color or array of colors
 
 **Chart Type Guidelines:**
 - **horizontalBar**: Best for rankings, long labels (like topic names)
