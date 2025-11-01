@@ -234,10 +234,25 @@ Remember: You have COMPLETE access to ALL 2,042 comments. Use this to provide co
             return message.content[0].text
             
         except Exception as e:
-            print(f"Error generating response: {e}")
+            error_str = str(e)
+            print(f"Error generating response: {error_str}")
             import traceback
             traceback.print_exc()
-            return f"I apologize, but I encountered an error: {str(e)}"
+            
+            # Handle rate limit errors with friendly message
+            if 'rate_limit' in error_str.lower() or '429' in error_str:
+                return """⏱️ **Rate Limit Reached**
+
+The system has temporarily reached its rate limit (50,000 tokens per minute).
+
+**Please wait 1-2 minutes and try your question again.**
+
+This happens when multiple queries are processed simultaneously. The limit resets every minute.
+
+Thank you for your patience! 🙏"""
+            
+            # Handle other errors
+            return f"I apologize, but I encountered an error processing your request. Please try again in a moment. If the problem persists, contact support.\n\nError details: {error_str[:200]}"
     
     def _log_conversation(
         self,
