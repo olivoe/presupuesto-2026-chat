@@ -35,6 +35,12 @@ try:
 except ImportError:
     TopicRetrieval = None
 
+# Import smart filter system (Option B)
+try:
+    from .smart_filter import get_smart_filter
+except ImportError:
+    get_smart_filter = None
+
 class handler(BaseHTTPRequestHandler):
     """Vercel serverless handler"""
     
@@ -109,11 +115,22 @@ class handler(BaseHTTPRequestHandler):
                     print(f"Topic retrieval error: {e}")
                     topic_context = ""
             
+            # **NEW: Smart Filter System (Option B) - Pre-filter comments based on query**
+            smart_filter_context = ""
+            if get_smart_filter is not None:
+                try:
+                    smart_filter = get_smart_filter()
+                    smart_filter_context = smart_filter.create_context_for_llm(message)
+                    print(f"✓ Smart filter: {len(smart_filter_context)} chars of filtered context")
+                except Exception as e:
+                    print(f"Smart filter error: {e}")
+                    smart_filter_context = ""
+            
             # Retrieve relevant context (using pre-built knowledge base)
             contexts = self._retrieve_context(message, top_k=8)
             
-            # Build prompt
-            prompt = self._build_prompt(message, contexts, conversation_history, memory_context, comment_context, post_context, topic_context)
+            # Build prompt (now includes smart_filter_context)
+            prompt = self._build_prompt(message, contexts, conversation_history, memory_context, comment_context, post_context, topic_context, smart_filter_context)
             
             # Generate response with GPT-4
             try:
@@ -397,7 +414,8 @@ class handler(BaseHTTPRequestHandler):
         memory_context: str = "",
         comment_context: str = "",
         post_context: str = "",
-        topic_context: str = ""
+        topic_context: str = "",
+        smart_filter_context: str = ""
     ) -> str:
         """Build prompt for LLM with all context sources"""
         
@@ -412,22 +430,39 @@ Your role is to answer questions about:
 - Strategic communication recommendations
 - Real comment examples and topic-specific statistics
 
-Guidelines:
-1. Answer based on the provided context
-2. **CRITICAL: When topic statistics are provided (e.g., "32 comentarios sobre salud, 4 positivos, 27 negativos"), USE THESE EXACT NUMBERS in your answer**
-3. For quantitative questions ("cuánta gente", "how many"), provide specific counts and percentages from the statistics
-4. **CRITICAL: When asked for comment examples ("muéstrame comentarios", "dame ejemplos", "algunos ejemplos"), you MUST use the real examples provided in the context**
-5. **FORBIDDEN: Never say "No encontré ejemplos" if real examples ARE present in the context. CHECK the context first!**
-6. **FORBIDDEN: Never use "ejemplos generales" or generic placeholder comments. ONLY use real comments from the analysis**
-7. **REQUIRED: When real comment examples are provided in the context (marked with sentiment like [negative], [positive]), copy them EXACTLY as provided**
-8. **REQUIRED: If you see "=== DATOS REALES DE COMENTARIOS ===" or "Ejemplos de comentarios reales:" in the context, those ARE real examples - USE THEM!**
-9. Be specific with numbers and data when available
-10. Only say "No encontré ejemplos específicos" if the context is TRULY empty or contains NO examples
-11. Be conversational but professional
-12. The analysis shows EXTREME negativity (1,957 negative vs 43 positive vs 42 neutral)
-13. Highlight psychosocial insights when relevant
-14. Use relevant past Q&As from memory to provide consistent, accurate answers
-15. Reference previous explanations when appropriate
+🔴 **CRITICAL PRIORITY RULES - READ FIRST:**
+
+1. **DATOS REALES FILTRADOS**: If you see a section starting with "=== DATOS REALES FILTRADOS ===" at the top of the context, this contains REAL, FILTERED comments specifically relevant to the user's query. THIS IS YOUR PRIMARY DATA SOURCE.
+
+2. **USE EXACT STATISTICS**: When statistics are provided (e.g., "Total de comentarios relevantes: 150", "Negativos: 142 (94.7%)"), USE THESE EXACT NUMBERS. Don't approximate or round differently.
+
+3. **USE REAL EXAMPLES ONLY**: When asked for comment examples ("muéstrame comentarios", "dame ejemplos", "algunos ejemplos"):
+   - FIRST check for "EJEMPLOS DE COMENTARIOS POSITIVOS/NEGATIVOS/NEUTRALES" sections
+   - Copy the comments EXACTLY as shown (with quotes)
+   - Include post URLs if provided
+   - NEVER fabricate or use "ejemplos generales"
+
+4. **FORBIDDEN RESPONSES**:
+   ❌ "No encontré ejemplos" when examples ARE present
+   ❌ "Ejemplos generales" or placeholder comments
+   ❌ Making up statistics or comments
+   ❌ Saying data doesn't exist when it's in the filtered context
+
+5. **REQUIRED BEHAVIOR**:
+   ✅ Check "=== DATOS REALES FILTRADOS ===" section FIRST
+   ✅ Use exact comment text with quotes
+   ✅ Cite statistics from filtered data
+   ✅ Only say "no encontré" if context is TRULY empty
+
+6. **For quantitative questions** ("cuánta gente", "how many", "qué porcentaje"):
+   - Use the statistics from "ESTADÍSTICAS DE SENTIMIENTO" section
+   - Provide both counts AND percentages
+   - Be specific and precise
+
+7. Be conversational but professional
+8. The overall analysis shows EXTREME negativity (95.8% negative)
+9. Highlight psychosocial insights when relevant
+10. Use relevant past Q&As from memory for consistency
 
 CHART GENERATION CAPABILITY:
 When the user asks for a chart, graph, visualization, or visual representation, you should:
@@ -506,6 +541,11 @@ Answer in the same language as the question (English or Spanish).
         if topic_context:
             topic_section = topic_context
         
+        # **NEW: Add smart filter context (Option B) - This is the PRIORITY context**
+        smart_filter_section = ""
+        if smart_filter_context:
+            smart_filter_section = "\n\n" + smart_filter_context + "\n\n"
+        
         # Build conversation history
         history_section = ""
         if conversation_history:
@@ -515,7 +555,8 @@ Answer in the same language as the question (English or Spanish).
                 content = msg.get('content', '')
                 history_section += f"{role.upper()}: {content}\n\n"
         
-        prompt = system_prompt + context_section + memory_section + comment_section + post_section + topic_section + history_section
+        # Smart filter context goes FIRST (highest priority)
+        prompt = system_prompt + smart_filter_section + context_section + memory_section + comment_section + post_section + topic_section + history_section
         
         return prompt
     
