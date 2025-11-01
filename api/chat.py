@@ -165,7 +165,7 @@ Users commonly request these types. Excel at these, but remain flexible:
 
 When users request charts, graphs, or visualizations, you MUST provide:
 1. Brief textual summary
-2. Chart specification in JSON format wrapped in markers: [CHART_START] ... [CHART_END]
+2. Chart specification in JSON format wrapped in EXACT markers: [CHART_START] ... [CHART_END]
 
 **CRITICAL: Use ONLY this EXACT JSON format (no text-based ASCII charts!):**
 
@@ -183,6 +183,12 @@ When users request charts, graphs, or visualizations, you MUST provide:
     }
 }
 [CHART_END]
+
+**CRITICAL MARKER RULES:**
+- Start marker: [CHART_START] (no forward slash)
+- End marker: [CHART_END] (no forward slash, NOT [/CHART_END])
+- Markers must be EXACTLY as shown above
+- Any variation will break chart rendering
 
 **IMPORTANT RULES:**
 - Do NOT include "options" field - it will break rendering

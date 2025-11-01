@@ -154,14 +154,16 @@ function addMessage(role, content, sources = null) {
     let chartId = null;  // Declare chartId in outer scope
     
     if (role === 'assistant') {
-        const chartMatch = content.match(/\[CHART_START\]([\s\S]*?)\[CHART_END\]/);
+        // Match both [CHART_END] and [/CHART_END] (be forgiving)
+        const chartMatch = content.match(/\[CHART_START\]([\s\S]*?)\[\/?CHART_END\]/);
         if (chartMatch) {
             try {
                 chartSpec = JSON.parse(chartMatch[1].trim());
-                // Remove chart spec from text content
-                textContent = content.replace(/\[CHART_START\][\s\S]*?\[CHART_END\]/, '').trim();
+                // Remove chart spec from text content (handle both formats)
+                textContent = content.replace(/\[CHART_START\][\s\S]*?\[\/?CHART_END\]/, '').trim();
             } catch (e) {
                 console.error('Failed to parse chart specification:', e);
+                console.error('Chart JSON:', chartMatch[1]);
             }
         }
     }
