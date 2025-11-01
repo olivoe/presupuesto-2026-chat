@@ -21,18 +21,79 @@
                 <h1>💬 Presupuesto 2026 Wendy AI</h1>
                 <p class="subtitle">Ask me anything about the TikTok analysis project</p>
             </div>
-            <button class="new-chat-btn" onclick="startNewChat()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-                New Chat
-            </button>
+            <div class="header-buttons">
+                <button class="info-btn" onclick="showInfoModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    Info
+                </button>
+                <button class="new-chat-btn" onclick="startNewChat()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    New Chat
+                </button>
+            </div>
         </header>
 
         <!-- Chat Container -->
         <div class="chat-container" id="chatContainer">
-            <!-- Welcome message removed - will be replaced with custom content -->
+            <!-- Project Info (shown on startup) -->
+            <div class="project-info" id="projectInfo">
+                <h2>Presupuesto 2026 TikTok Analysis</h2>
+                
+                <p><strong>Dataset:</strong> 2,042 comments extracted from 20 TikTok videos about Guatemala's 2026 budget proposal.</p>
+                
+                <p><strong>Video Selection:</strong> Posts identified through keyword search, ranked by Interest Index—a metric measuring engagement relative to historical baseline and peer performance.</p>
+                
+                <p><strong>Sentiment Analysis:</strong> Custom classification models trained specifically on this dataset using Guatemalan Spanish, accounting for subject's context, informal language, slang, and orthographic variations.</p>
+                
+                <p><strong>Bias Correction:</strong> Three-method approach applied: Confusion Matrix Inversion (Monte Carlo), Activist Adjustment, and Missing Data Uncertainty (Confidence Interval Inflation).</p>
+                
+                <div class="why-tiktok">
+                    <h3>Why TikTok?</h3>
+                    <ul>
+                        <li>Views reflect genuine interest, not algorithmic filtering</li>
+                        <li>Spontaneous reactions from real users, not coordinated activism</li>
+                        <li>Higher penetration and growth than Facebook in Guatemala</li>
+                        <li>Scientifically rigorous: All results independently reproducible</li>
+                    </ul>
+                </div>
+                
+                <div class="suggestions">
+                    <h3>Try asking:</h3>
+                    
+                    <div class="suggestion-group">
+                        <h4>Topics & Themes:</h4>
+                        <button class="suggestion-btn" onclick="askExample('What are the main topics detected in the comments?')">
+                            What are the main topics detected in the comments?
+                        </button>
+                        <button class="suggestion-btn" onclick="askExample('Show me the most frequently mentioned subjects')">
+                            Show me the most frequently mentioned subjects
+                        </button>
+                        <button class="suggestion-btn" onclick="askExample('What themes appear in negative vs. positive comments?')">
+                            What themes appear in negative vs. positive comments?
+                        </button>
+                    </div>
+                    
+                    <div class="suggestion-group">
+                        <h4>Probability Analysis:</h4>
+                        <button class="suggestion-btn" onclick="askExample('If I randomly select a comment, what is the probability it is negative?')">
+                            If I randomly select a comment, what's the probability it's negative?
+                        </button>
+                        <button class="suggestion-btn" onclick="askExample('What is the probability a comment mentions corruption?')">
+                            What's the probability a comment mentions corruption?
+                        </button>
+                        <button class="suggestion-btn" onclick="askExample('If a comment is about health, what is the probability it is negative?')">
+                            If a comment is about health, what's the probability it's negative?
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Input Area -->
@@ -56,6 +117,63 @@
                     <span class="status-dot"></span>
                     Ready
                 </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Modal -->
+    <div class="modal" id="infoModal" onclick="closeInfoModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeInfoModal()">&times;</button>
+            
+            <h2>Presupuesto 2026 TikTok Analysis</h2>
+            
+            <p><strong>Dataset:</strong> 2,042 comments extracted from 20 TikTok videos about Guatemala's 2026 budget proposal.</p>
+            
+            <p><strong>Video Selection:</strong> Posts identified through keyword search, ranked by Interest Index—a metric measuring engagement relative to historical baseline and peer performance.</p>
+            
+            <p><strong>Sentiment Analysis:</strong> Custom classification models trained specifically on this dataset using Guatemalan Spanish, accounting for subject's context, informal language, slang, and orthographic variations.</p>
+            
+            <p><strong>Bias Correction:</strong> Three-method approach applied: Confusion Matrix Inversion (Monte Carlo), Activist Adjustment, and Missing Data Uncertainty (Confidence Interval Inflation).</p>
+            
+            <div class="why-tiktok">
+                <h3>Why TikTok?</h3>
+                <ul>
+                    <li>Views reflect genuine interest, not algorithmic filtering</li>
+                    <li>Spontaneous reactions from real users, not coordinated activism</li>
+                    <li>Higher penetration and growth than Facebook in Guatemala</li>
+                    <li>Scientifically rigorous: All results independently reproducible</li>
+                </ul>
+            </div>
+            
+            <div class="suggestions">
+                <h3>Try asking:</h3>
+                
+                <div class="suggestion-group">
+                    <h4>Topics & Themes:</h4>
+                    <button class="suggestion-btn" onclick="askExample('What are the main topics detected in the comments?'); closeInfoModal();">
+                        What are the main topics detected in the comments?
+                    </button>
+                    <button class="suggestion-btn" onclick="askExample('Show me the most frequently mentioned subjects'); closeInfoModal();">
+                        Show me the most frequently mentioned subjects
+                    </button>
+                    <button class="suggestion-btn" onclick="askExample('What themes appear in negative vs. positive comments?'); closeInfoModal();">
+                        What themes appear in negative vs. positive comments?
+                    </button>
+                </div>
+                
+                <div class="suggestion-group">
+                    <h4>Probability Analysis:</h4>
+                    <button class="suggestion-btn" onclick="askExample('If I randomly select a comment, what is the probability it is negative?'); closeInfoModal();">
+                        If I randomly select a comment, what's the probability it's negative?
+                    </button>
+                    <button class="suggestion-btn" onclick="askExample('What is the probability a comment mentions corruption?'); closeInfoModal();">
+                        What's the probability a comment mentions corruption?
+                    </button>
+                    <button class="suggestion-btn" onclick="askExample('If a comment is about health, what is the probability it is negative?'); closeInfoModal();">
+                        If a comment is about health, what's the probability it's negative?
+                    </button>
+                </div>
             </div>
         </div>
     </div>

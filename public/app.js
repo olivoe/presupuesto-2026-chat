@@ -318,12 +318,32 @@ function startNewChat() {
     conversationHistory = [];
     sessionId = generateSessionId();
     
-    // Clear chat container
+    // Clear chat container and show project info
     const chatContainer = document.getElementById('chatContainer');
-    chatContainer.innerHTML = '';  // Empty - welcome message removed
+    const projectInfo = document.getElementById('projectInfo');
+    if (projectInfo) {
+        chatContainer.innerHTML = projectInfo.outerHTML;
+    } else {
+        chatContainer.innerHTML = '';
+    }
     
     // Clear input
     document.getElementById('userInput').value = '';
+}
+
+// Show info modal
+function showInfoModal() {
+    const modal = document.getElementById('infoModal');
+    modal.style.display = 'flex';
+}
+
+// Close info modal
+function closeInfoModal(event) {
+    const modal = document.getElementById('infoModal');
+    // Close if clicking outside modal content or on close button
+    if (!event || event.target === modal || event.target.className === 'modal-close') {
+        modal.style.display = 'none';
+    }
 }
 
 // Export conversation (bonus feature)
