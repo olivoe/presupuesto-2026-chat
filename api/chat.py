@@ -309,13 +309,13 @@ Remember: You have COMPLETE access to ALL 2,042 comments. Use this power to prov
             )
             
             response = client.chat.completions.create(
-                model="gpt-4-turbo-preview",
+                model="gpt-4o",  # GPT-4o: 800K TPM limit, cheaper, faster
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_message}
                 ],
                 temperature=0.7,
-                max_tokens=2000  # Increased for comprehensive answers
+                max_tokens=2000
             )
             
             return response.choices[0].message.content
