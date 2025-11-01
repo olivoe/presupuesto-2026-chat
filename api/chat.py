@@ -317,13 +317,51 @@ you MUST format them as CLICKABLE LINKS with metadata:
 
 1. **USE COMPLETE DATASET**: All 2,042 comments available
 
-2. **REAL EXAMPLES ONLY - ABSOLUTELY NO FABRICATION**:
-   - When showing comment examples, copy EXACT text from the dataset
-   - NEVER create, paraphrase, or make up comments
-   - NEVER use "typical phrases" or "ejemplos generales"
-   - If asked for examples, search the dataset and quote verbatim
-   - Include the exact text with all spelling errors, slang, and informal language
-   - Only exception: If user explicitly asks "dame una idea de frases típicas" (not examples)
+2. **REAL COMMENTS ONLY - ZERO TOLERANCE FOR MODIFICATION**:
+   
+   **THIS IS CRITICAL - READ CAREFULLY:**
+   
+   When showing comment examples, you MUST copy the EXACT text character-by-character from the dataset.
+   
+   **WHAT "EXACT" MEANS:**
+   - Copy EVERY character including spelling errors, typos, missing accents
+   - Keep ALL CAPS if the comment is in ALL CAPS
+   - Keep lowercase if the comment is lowercase
+   - Keep emojis, punctuation, spaces EXACTLY as they appear
+   - Keep incomplete words, abbreviations, slang EXACTLY as written
+   - Keep grammatical errors EXACTLY as they appear
+   
+   **EXAMPLES OF WHAT IS FORBIDDEN:**
+   
+   ❌ FORBIDDEN: "Puro robo, todo se lo roban" (cleaned up)
+   ✅ CORRECT: "puro robo todo se lo roban" (if that's how it appears)
+   
+   ❌ FORBIDDEN: "Corruptos! Se aumentan el sueldo" (corrected)
+   ✅ CORRECT: "corruptos se aumentan el sueldo" (if that's how it appears)
+   
+   ❌ FORBIDDEN: "Qué vergüenza de congreso" (added accent)
+   ✅ CORRECT: "que verguenza de congreso" (if missing accent in original)
+   
+   ❌ FORBIDDEN: "Se roban todo y nadie hace nada" (paraphrased)
+   ✅ CORRECT: Must use EXACT text from dataset, not similar phrases
+   
+   **ABSOLUTELY FORBIDDEN:**
+   ❌ Creating example comments that aren't in the dataset
+   ❌ Paraphrasing or "cleaning up" real comments
+   ❌ Correcting spelling, grammar, or punctuation
+   ❌ Adding or removing capitalization
+   ❌ Adding or removing accents (á, é, í, ó, ú, ñ)
+   ❌ Translating or explaining what a comment means
+   ❌ Using "typical phrases" or "ejemplos generales"
+   ❌ Combining multiple comments into one
+   ❌ Removing emojis or special characters
+   
+   **ONLY EXCEPTION:**
+   If user explicitly asks "dame una idea de frases típicas" (asking for typical phrases, not examples)
+   
+   **IF YOU CANNOT FIND AN EXACT COMMENT:**
+   Say: "No encontré comentarios con ese texto exacto. ¿Quieres que busque comentarios sobre [tema]?"
+   Do NOT make up or paraphrase similar comments.
 
 3. **HANDLE GUATEMALAN SPANISH & POOR ORTHOGRAPHY**:
    - Comments contain spelling errors, incomplete words, slang
@@ -370,14 +408,25 @@ you MUST format them as CLICKABLE LINKS with metadata:
 
 9. **GUIDE IS NOT A LIMIT**: Can do other analyses too
 
-**FORBIDDEN ACTIONS:**
+**FORBIDDEN ACTIONS (WILL RESULT IN INCORRECT ANALYSIS):**
+
+**COMMENT DISPLAY (ZERO TOLERANCE - MOST CRITICAL):**
 ❌ Creating example comments that aren't in the dataset
 ❌ Paraphrasing or "cleaning up" real comments
+❌ Correcting spelling, grammar, punctuation, or capitalization in comments
+❌ Adding or removing accents in comments (á, é, í, ó, ú, ñ)
+❌ Removing emojis or special characters from comments
 ❌ Using generic placeholder comments
+❌ Combining or summarizing multiple comments
+❌ Translating comments without showing original text first
+
+**TOPIC ANALYSIS:**
 ❌ Ignoring comments with spelling errors
 ❌ Requiring exact spelling matches for topic filtering
 ❌ Showing ONLY graphs without text breakdown when asked about topics
 ❌ Omitting percentages when showing topic counts
+
+**DATA PRESENTATION:**
 ❌ Creating charts without N (sample size) in title
 ❌ Showing statistics without clarifying denominators
 
@@ -390,7 +439,23 @@ you MUST format them as CLICKABLE LINKS with metadata:
 - Acknowledge extreme negativity (95.8%)
 - Provide context and insights
 
-Remember: You have COMPLETE access to ALL 2,042 comments. Use this to provide comprehensive, accurate analysis."""
+=== FINAL CRITICAL REMINDER ===
+
+**WHEN SHOWING COMMENT EXAMPLES:**
+
+You have the COMPLETE, RAW text of all 2,042 comments in the dataset above.
+
+When a user asks for comment examples, you MUST:
+1. Search the dataset for relevant comments
+2. Copy the EXACT text character-by-character
+3. Include ALL spelling errors, typos, slang, emojis, capitalization AS-IS
+4. NEVER correct, clean, or paraphrase
+
+**THIS IS NON-NEGOTIABLE.**
+
+If you cannot find a comment, say so. Do NOT create or modify comments.
+
+Remember: You have COMPLETE access to ALL 2,042 comments. Use this to provide comprehensive, accurate analysis with REAL, UNMODIFIED comment examples."""
     
     def _build_user_prompt(
         self,
