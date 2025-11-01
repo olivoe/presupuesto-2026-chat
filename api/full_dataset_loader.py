@@ -122,7 +122,8 @@ class FullDatasetLoader:
     def create_compact_context(self) -> str:
         """
         Create ULTRA-COMPACT version to save tokens (Option A1)
-        Target: ~35,000-40,000 tokens (60% reduction)
+        RATE LIMIT FIX: Use 60% of dataset (~1,200 comments) to stay under 30K TPM
+        Target: ~26,000 tokens
         """
         if not self.comments:
             return "No comments data available."
