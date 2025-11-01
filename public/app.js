@@ -145,8 +145,8 @@ function addMessage(role, content, sources = null) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${role}`;
     
-    const icon = role === 'user' ? '👤' : '🤖';
-    const label = role === 'user' ? 'You' : 'AI Assistant';
+    const icon = role === 'user' ? '👤' : '<img src="wendy.png" alt="Wendy AI" style="width: 32px; height: 32px; border-radius: 50%;">';
+    const label = role === 'user' ? 'You' : 'Wendy AI';
     
     // Extract chart specifications if present
     let chartSpec = null;
@@ -171,7 +171,7 @@ function addMessage(role, content, sources = null) {
     let html = `
         <div class="message-content">
             <div class="message-header">
-                <div class="message-icon">${icon}</div>
+                ${role === 'user' ? `<div class="message-icon">${icon}</div>` : icon}
                 <div class="message-label">${label}</div>
             </div>
             <div class="message-text">${role === 'assistant' ? renderMarkdown(textContent) : escapeHtml(textContent)}</div>
@@ -231,8 +231,8 @@ function addLoadingMessage() {
     loadingDiv.innerHTML = `
         <div class="message-content">
             <div class="message-header">
-                <div class="message-icon">🤖</div>
-                <div class="message-label">AI Assistant</div>
+                <img src="wendy.png" alt="Wendy AI" style="width: 32px; height: 32px; border-radius: 50%;">
+                <div class="message-label">Wendy AI</div>
             </div>
             <div class="loading">
                 <div class="loading-dot"></div>
@@ -320,29 +320,7 @@ function startNewChat() {
     
     // Clear chat container
     const chatContainer = document.getElementById('chatContainer');
-    chatContainer.innerHTML = `
-        <div class="welcome-message" id="welcomeMessage">
-            <div class="welcome-icon">🎯</div>
-            <h2>Welcome to Presupuesto 2026 AI Assistant!</h2>
-            <p>I can help you explore insights from the TikTok analysis project.</p>
-            
-            <div class="example-questions">
-                <h3>Try asking:</h3>
-                <button class="example-btn" onclick="askExample('What are the main findings from the sentiment analysis?')">
-                    What are the main findings from the sentiment analysis?
-                </button>
-                <button class="example-btn" onclick="askExample('Which post has the highest Interest Index?')">
-                    Which post has the highest Interest Index?
-                </button>
-                <button class="example-btn" onclick="askExample('What are the most common topics in negative comments?')">
-                    What are the most common topics in negative comments?
-                </button>
-                <button class="example-btn" onclick="askExample('What are the strategic communication recommendations?')">
-                    What are the strategic communication recommendations?
-                </button>
-            </div>
-        </div>
-    `;
+    chatContainer.innerHTML = '';  // Empty - welcome message removed
     
     // Clear input
     document.getElementById('userInput').value = '';
