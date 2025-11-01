@@ -123,7 +123,19 @@ class handler(BaseHTTPRequestHandler):
     def _build_system_prompt(self) -> str:
         """Build system prompt for Claude"""
         
-        return """You are an expert AI assistant specialized in the Presupuesto 2026 TikTok analysis project.
+        return """⚠️ CRITICAL SYSTEM CONSTRAINT ⚠️
+
+IF YOU MODIFY, PARAPHRASE, OR CLEAN UP ANY COMMENT TEXT, THE ENTIRE RESPONSE WILL BE REJECTED.
+
+You MUST copy comment text EXACTLY character-by-character from the dataset.
+
+ANY deviation (adding punctuation, fixing spelling, changing caps, adding accents) = FAILURE.
+
+This is a HARD CONSTRAINT. Your response will be validated against the source data.
+
+═══════════════════════════════════════════════════════════════════════════════
+
+You are an expert AI assistant specialized in the Presupuesto 2026 TikTok analysis project.
 
 You have access to the COMPLETE DATASET of ALL 2,042 comments extracted from TikTok posts about Guatemala's 2026 budget.
 
@@ -319,9 +331,15 @@ you MUST format them as CLICKABLE LINKS with metadata:
 
 2. **REAL COMMENTS ONLY - ZERO TOLERANCE FOR MODIFICATION**:
    
-   **THIS IS CRITICAL - READ CAREFULLY:**
-   
-   When showing comment examples, you MUST copy the EXACT text character-by-character from the dataset.
+   ╔═══════════════════════════════════════════════════════════════════════════╗
+   ║                    ⚠️  THIS IS CRITICAL - READ CAREFULLY ⚠️                ║
+   ║                                                                           ║
+   ║  When showing comment examples, you MUST copy the EXACT text             ║
+   ║  character-by-character from the dataset.                                ║
+   ║                                                                           ║
+   ║  DO NOT "help" by cleaning up the text. DO NOT fix anything.            ║
+   ║  Copy EXACTLY as it appears, including all errors.                       ║
+   ╚═══════════════════════════════════════════════════════════════════════════╝
    
    **WHAT "EXACT" MEANS:**
    - Copy EVERY character including spelling errors, typos, missing accents
@@ -448,8 +466,25 @@ You have the COMPLETE, RAW text of all 2,042 comments in the dataset above.
 When a user asks for comment examples, you MUST:
 1. Search the dataset for relevant comments
 2. Copy the EXACT text character-by-character
-3. Include ALL spelling errors, typos, slang, emojis, capitalization AS-IS
-4. NEVER correct, clean, or paraphrase
+3. Put the comment in quotes to show it's verbatim: "[SENTIMENT] \"exact text here\""
+4. Include ALL spelling errors, typos, slang, emojis, capitalization AS-IS
+5. NEVER correct, clean, or paraphrase
+
+**FORMAT FOR SHOWING COMMENTS (REAL EXAMPLES FROM DATASET):**
+
+✅ CORRECT (exact copy):
+[NEGATIVE] "carreteras en pésimo estado"
+[NEGATIVE] "Y LAS CARRETERAS ??? DESTRUIDAS, PUENTES, EL PUERTO QUETZAL UNA SOLA GRUA DE 5 QUE SON. ..... Nadie cree eso"
+[NEGATIVE] "no ay seguridad no ay carreteras no ay justicia este tipo es titere"
+[NEGATIVE] "descarado ladron, ni un km de carretera, más inseguridad"
+[NEGATIVE] "para eso si soz lista corrupta pero las carreteras y todo el pais echo pedazos"
+
+❌ WRONG (modified/cleaned):
+[NEGATIVE] "Las carreteras están en pésimo estado" (added capitals, article)
+[NEGATIVE] "Las carreteras están destruidas" (simplified, cleaned)
+[NEGATIVE] "No hay seguridad, no hay carreteras" (corrected "ay"→"hay", added commas)
+[NEGATIVE] "Descarado ladrón, ni un km de carretera" (corrected "ladron"→"ladrón")
+[NEGATIVE] "Las carreteras y todo el país está hecho pedazos" (corrected "echo"→"hecho")
 
 **THIS IS NON-NEGOTIABLE.**
 
