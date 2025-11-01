@@ -30,7 +30,7 @@ class FullDatasetLoader:
             else:
                 print(f"⚠ Warning: Comments file not found at {comments_path}")
             
-            # Load Interest Index data
+            # Load Interest Index data (already has correct stance and views_as_of_date)
             interest_index_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'posts', 'interest_index.json')
             interest_index_data = []
             if os.path.exists(interest_index_path):
@@ -43,7 +43,7 @@ class FullDatasetLoader:
             # Create lookup dict for Interest Index by video_id
             interest_index_map = {str(item['video_id']): item for item in interest_index_data}
             
-            # Load post metadata and merge with Interest Index
+            # Load post metadata (already has correct post_stance and views_as_of_date)
             posts_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'posts', 'posts_metadata.json')
             if os.path.exists(posts_path):
                 with open(posts_path, 'r', encoding='utf-8') as f:
@@ -54,12 +54,12 @@ class FullDatasetLoader:
                 for post in posts_metadata:
                     video_id = str(post.get('video_id', ''))
                     if video_id in interest_index_map:
-                        # Merge Interest Index fields
+                        # Merge Interest Index fields (stance is already correct in post)
                         ii_data = interest_index_map[video_id]
                         post['interest_index'] = ii_data.get('interest_index', 0)
                         post['rank'] = ii_data.get('rank', 999)
-                        post['views'] = ii_data.get('views', post.get('views', 0))
-                        post['stance'] = ii_data.get('stance', post.get('post_stance', 'N/A'))
+                        # Keep views from posts_metadata (same as II but has views_as_of_date)
+                        post['views_as_of_date'] = post.get('views_as_of_date', 'October 30, 2025')
                     self.posts.append(post)
                 
                 # Sort by rank
@@ -171,9 +171,9 @@ class FullDatasetLoader:
         # Add post metadata with Interest Index FIRST (before comments)
         if self.posts:
             context_parts.append("="*40)
-            context_parts.append("POSTS WITH INTEREST INDEX (24 posts)")
+            context_parts.append("POSTS WITH INTEREST INDEX (20 posts)")
             context_parts.append("="*40)
-            context_parts.append("FMT:Rank|Username|PostID|Views|IntIdx|Stance|Description")
+            context_parts.append("FMT:Rank|Username|PostID|Views(Date)|IntIdx|Stance|Description")
             context_parts.append("")
             
             for post in self.posts:
@@ -181,15 +181,24 @@ class FullDatasetLoader:
                 username = post.get('username', 'N/A')
                 video_id = post.get('video_id', 'N/A')
                 views = post.get('views', 0)
+                views_date = post.get('views_as_of_date', 'Oct 30, 2025')
                 interest_index = post.get('interest_index', 0)
-                stance = 'A' if 'approv' in str(post.get('stance', '')).lower() else 'D'
+                
+                # Get stance from post_stance field (correct source)
+                post_stance = post.get('post_stance', 'N/A').lower()
+                if post_stance == 'approving':
+                    stance = 'A'
+                elif post_stance == 'disapproving':
+                    stance = 'D'
+                else:
+                    stance = 'U'  # Unknown
                 
                 # Get description (truncate if too long to save tokens)
                 description = post.get('description', 'N/A')
                 if len(description) > 100:
                     description = description[:97] + "..."
                 
-                context_parts.append(f"{rank}|{username}|{video_id}|{views:,}v|{interest_index:.2f}|{stance}|{description}")
+                context_parts.append(f"{rank}|{username}|{video_id}|{views:,}v({views_date})|{interest_index:.2f}|{stance}|{description}")
             
             context_parts.append("")
             context_parts.append("IntIdx=Interest Index (higher=more interest)")
