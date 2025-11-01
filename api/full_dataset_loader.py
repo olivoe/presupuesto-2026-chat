@@ -173,7 +173,7 @@ class FullDatasetLoader:
             context_parts.append("="*40)
             context_parts.append("POSTS WITH INTEREST INDEX (24 posts)")
             context_parts.append("="*40)
-            context_parts.append("FMT:Rank|Username|PostID|Views|IntIdx|Stance")
+            context_parts.append("FMT:Rank|Username|PostID|Views|IntIdx|Stance|Description")
             context_parts.append("")
             
             for post in self.posts:
@@ -184,7 +184,12 @@ class FullDatasetLoader:
                 interest_index = post.get('interest_index', 0)
                 stance = 'A' if 'approv' in str(post.get('stance', '')).lower() else 'D'
                 
-                context_parts.append(f"{rank}|{username}|{video_id}|{views:,}v|{interest_index:.2f}|{stance}")
+                # Get description (truncate if too long to save tokens)
+                description = post.get('description', 'N/A')
+                if len(description) > 100:
+                    description = description[:97] + "..."
+                
+                context_parts.append(f"{rank}|{username}|{video_id}|{views:,}v|{interest_index:.2f}|{stance}|{description}")
             
             context_parts.append("")
             context_parts.append("IntIdx=Interest Index (higher=more interest)")
