@@ -31,8 +31,9 @@ for idx, row in df.iterrows():
         'confidence': float(row.get('confidence_ml_v3', 0.0)) if pd.notna(row.get('confidence_ml_v3')) else 0.0
     }
     
-    # Only add if text is not empty
-    if comment['text'] and comment['text'] != 'nan' and len(comment['text']) > 2:
+    # Include ALL comments - no filtering (user's request)
+    # Even single emojis or very short comments might be relevant for analysis
+    if comment['text'] and comment['text'] != 'nan':
         comments.append(comment)
 
 print(f"\nProcessed {len(comments)} valid comments")
