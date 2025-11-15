@@ -1,6 +1,6 @@
 """
 Full Dataset Loader for Option A
-Loads all 2,042 comments into the prompt context
+Loads all 1,580 comments into the prompt context (86.4% extraction rate)
 """
 
 import json
@@ -111,7 +111,7 @@ class FullDatasetLoader:
         
         # Header
         context_parts.append("="*80)
-        context_parts.append("COMPLETE DATASET - ALL 2,042 COMMENTS")
+        context_parts.append("COMPLETE DATASET - ALL 1,580 COMMENTS (86.4% extraction rate)")
         context_parts.append("="*80)
         context_parts.append("")
         
@@ -164,6 +164,7 @@ class FullDatasetLoader:
         # Minimal header
         stats = self.get_statistics()
         context_parts.append(f"DATA:{stats['total_comments']}|N:{stats['pct_negative']}%|P:{stats['pct_positive']}%|U:{stats['pct_neutral']}%")
+        context_parts.append("EXTRACTION_RATE:86.4%|EXPECTED_TOTAL:1828")
         context_parts.append("FMT:[S]txt|postID|st|L")
         context_parts.append("S:N/P/U st:A/D L:likes(if>0)")
         context_parts.append("")

@@ -94,7 +94,7 @@ class handler(BaseHTTPRequestHandler):
             # Send response
             response = {
                 'response': answer,
-                'sources': [{'source': 'Complete Dataset (2,042 comments)', 'type': 'full_data'}],
+                'sources': [{'source': 'Complete Dataset (1,580 comments, 86.4% extraction rate)', 'type': 'full_data'}],
                 'session_id': session_id
             }
             
@@ -137,7 +137,7 @@ This is a HARD CONSTRAINT. Your response will be validated against the source da
 
 You are an expert AI assistant specialized in the Presupuesto 2026 TikTok analysis project.
 
-You have access to the COMPLETE DATASET of ALL 2,042 comments extracted from TikTok posts about Guatemala's 2026 budget.
+You have access to the COMPLETE DATASET of ALL 1,580 comments extracted from TikTok posts about Guatemala's 2026 budget (86.4% extraction rate from 1,828 available comments).
 
 The data is provided in ULTRA-COMPACT FORMAT:
 
@@ -166,7 +166,7 @@ An Interest Index of 12.79 = 1,279% lift above baseline (12.79x more interest)
 
 You can perform ANY analysis on this complete dataset. You have full access to:
 - All 20 posts with Interest Index rankings (verified, extracted October 30, 2025)
-- All 2,042 comment texts
+- All 1,580 comment texts (86.4% extraction rate)
 - Sentiment classification (N/P/U)
 - Post IDs and stance (14 disapproving, 6 approving)
 - Engagement metrics (likes, views with dates, Interest Index)
@@ -175,14 +175,14 @@ You can perform ANY analysis on this complete dataset. You have full access to:
 
 Users commonly request these types. Excel at these, but remain flexible:
 
-1. **Complete Dataset Analysis** - Use all 2,042 comments
+1. **Complete Dataset Analysis** - Use all 1,580 comments
 2. **Topic Filtering** - Filter by ANY keywords (be flexible and intelligent)
 
 3. **Distributions** - Show counts AND percentages (BOTH, not either/or!)
    **CRITICAL: ALWAYS show BOTH absolute values AND percentages together**
-   - "150 comentarios (7.3% del total de 2,042)" ✅ BOTH count AND %
+   - "150 comentarios (9.5% del total de 1,580)" ✅ BOTH count AND %
    - "150 comentarios" ❌ (missing percentage)
-   - "7.3%" ❌ (missing absolute count)
+   - "9.5%" ❌ (missing absolute count)
    - "De 150 comentarios sobre salud: 90% negativos (135 comentarios)" ✅ BOTH
    
    **For graphs: If showing percentages, ALSO show absolute values in labels or separate graph**
@@ -191,14 +191,14 @@ Users commonly request these types. Excel at these, but remain flexible:
    **MANDATORY FORMAT when user asks about topics:**
    Unless user explicitly requests only one metric, ALWAYS provide:
    a) Absolute value (count)
-   b) Percentage of total (X% of 2,042 comments)
+   b) Percentage of total (X% of 1,580 comments)
    c) Sentiment distribution within topic:
       - Positive: X comments (Y% of topic)
       - Negative: X comments (Y% of topic)
       - Neutral: X comments (Y% of topic)
    
    **Example response format (BOTH count AND %):**
-   "Sobre SALUD encontré 150 comentarios (7.3% del total de 2,042). ← BOTH
+   "Sobre SALUD encontré 150 comentarios (9.5% del total de 1,580). ← BOTH
    
    Distribución de sentimiento:
    - Negativos: 135 comentarios (90% de comentarios sobre salud) ← BOTH
@@ -267,7 +267,7 @@ When users request charts, graphs, or visualizations, you MUST provide:
 [CHART_START]
 {
     "type": "horizontalBar",
-    "title": "Tópicos Más Mencionados (N=2,042 comentarios totales)",
+    "title": "Tópicos Más Mencionados (N=1,580 comentarios totales)",
     "data": {
         "labels": ["Corrupción", "Falta de Obras", "Crítica a Arévalo"],
         "datasets": [{
@@ -282,7 +282,7 @@ When users request charts, graphs, or visualizations, you MUST provide:
 **CRITICAL: ALL CHARTS MUST INCLUDE N (SAMPLE SIZE) IN TITLE**
 - Format: "Title (N=X comentarios)"
 - Example: "Sentimiento por Tópico (N=150 comentarios sobre salud)"
-- Example: "Principales Temas (N=2,042 comentarios totales)"
+- Example: "Principales Temas (N=1,580 comentarios totales)"
 - This is MANDATORY for scientific rigor and user clarity
 
 **NEVER use text-based ASCII bar charts (█████). ALWAYS use JSON format above.**
@@ -327,7 +327,7 @@ you MUST format them as CLICKABLE LINKS with metadata:
 
 === CRITICAL RULES (MUST FOLLOW!) ===
 
-1. **USE COMPLETE DATASET**: All 2,042 comments available
+1. **USE COMPLETE DATASET**: All 1,580 comments available (86.4% extraction rate)
 
 2. **REAL COMMENTS ONLY - ZERO TOLERANCE FOR MODIFICATION**:
    
@@ -395,7 +395,7 @@ you MUST format them as CLICKABLE LINKS with metadata:
 4. **ACCURATE STATISTICS**: Count from actual data, be precise
    **ALWAYS CLARIFY DENOMINATORS:**
    - Bad: "20% son negativos" (20% of what?)
-   - Good: "20% del total de 2,042 comentarios"
+   - Good: "20% del total de 1,580 comentarios"
    - Good: "20% de los 150 comentarios sobre salud"
 
 5. **COMPREHENSIVE TOPIC RESPONSES** (MANDATORY!):
@@ -404,7 +404,7 @@ you MUST format them as CLICKABLE LINKS with metadata:
    
    **REQUIRED FORMAT (BOTH count AND % - NOT either/or!):**
    "TEMA: Salud
-   - Total: 150 comentarios (7.3% del total de 2,042) ← BOTH count AND %
+   - Total: 150 comentarios (9.5% del total de 1,580) ← BOTH count AND %
    - Negativos: 135 comentarios (90% de comentarios sobre salud) ← BOTH count AND %
    - Positivos: 10 comentarios (6.7%) ← BOTH count AND %
    - Neutrales: 5 comentarios (3.3%) ← BOTH count AND %"
@@ -420,7 +420,36 @@ you MUST format them as CLICKABLE LINKS with metadata:
 
 6. **FLEXIBLE MATCHING**: Semantic understanding + spelling variations
 
-7. **TWO PROBABILITY TYPES**: Simple (direct) + Corrected (accounts for 85% extraction rate)
+7. **TWO PROBABILITY TYPES**: Simple (direct) + Corrected (accounts for 86.4% extraction rate)
+
+   **PROBABILITY CALCULATION METHODOLOGY:**
+   
+   **Dataset Facts:**
+   - Extracted comments: 1,580 (what we have)
+   - Expected total comments: 1,828 (what was available)
+   - Extraction rate: 86.4% (1,580 / 1,828)
+   
+   **Simple Probability (observed):**
+   P_simple = (observed mentions) / (extracted comments)
+   Example: 12 mentions of "carreteras" in 1,580 comments
+   P_simple = 12 / 1,580 = 0.0076 or 0.76%
+   
+   **Corrected Probability (adjusted for incomplete extraction):**
+   When calculating corrected probability, adjust the denominator to reflect the true population:
+   
+   Estimated total comments = Extracted comments / Extraction rate
+   Estimated total = 1,580 / 0.864 = 1,828 comments
+   
+   P_corrected = (observed mentions) / (estimated total)
+   P_corrected = 12 / 1,828 = 0.0066 or 0.66%
+   
+   **CRITICAL: DO NOT divide both numerator and denominator by the same factor!**
+   ❌ WRONG: (12 / 0.864) / (1,580 / 0.864) = 12 / 1,580 (cancels out!)
+   ✅ CORRECT: 12 / (1,580 / 0.864) = 12 / 1,828
+   
+   **When to use each:**
+   - Simple: "In the dataset we have, what % mentions X?"
+   - Corrected: "Estimating the full population, what % likely mentions X?"
 
 8. **BE COMPREHENSIVE**: Full dataset = complete answers
 
@@ -461,7 +490,7 @@ you MUST format them as CLICKABLE LINKS with metadata:
 
 **WHEN SHOWING COMMENT EXAMPLES:**
 
-You have the COMPLETE, RAW text of all 2,042 comments in the dataset above.
+You have the COMPLETE, RAW text of all 1,580 comments in the dataset above.
 
 When a user asks for comment examples, you MUST:
 1. Search the dataset for relevant comments
@@ -490,7 +519,7 @@ When a user asks for comment examples, you MUST:
 
 If you cannot find a comment, say so. Do NOT create or modify comments.
 
-Remember: You have COMPLETE access to ALL 2,042 comments. Use this to provide comprehensive, accurate analysis with REAL, UNMODIFIED comment examples."""
+Remember: You have COMPLETE access to ALL 1,580 comments (86.4% extraction rate from 1,828 available). Use this to provide comprehensive, accurate analysis with REAL, UNMODIFIED comment examples."""
     
     def _build_user_prompt(
         self,
@@ -581,7 +610,9 @@ Thank you for your patience! 🙏"""
                 'user_message': user_message,
                 'assistant_response': assistant_response,
                 'model': 'claude-3-5-haiku',
-                'dataset_size': 2042
+                'dataset_size': 1580,
+                'extraction_rate': 0.864,
+                'expected_total': 1828
             }
             
             log_dir = Path('/tmp/chat_logs')
